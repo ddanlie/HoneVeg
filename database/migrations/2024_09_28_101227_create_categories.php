@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->references('user_id')->on('users');
-            $table->enum('role', ['admin', 'moderator', 'user', 'seller', 'suspended']);
-            
-            $table->primary(['user_id', 'role']);
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id('category_id')->primary();
+            $table->unsignedBigInteger('parent_category_id')->references('category_id')->on('categories');
+            $table->string('name');
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('categories');
     }
 };

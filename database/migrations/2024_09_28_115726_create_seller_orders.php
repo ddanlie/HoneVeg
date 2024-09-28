@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->references('user_id')->on('users');
-            $table->enum('role', ['admin', 'moderator', 'user', 'seller', 'suspended']);
-            
-            $table->primary(['user_id', 'role']);
+        Schema::create('seller_orders', function (Blueprint $table) {
+            $table->unsignedBigInteger('seller_id')->references('user_id')->on('users');
+            $table->unsignedBigInteger('order_id')->references('order_id')->on('orders');
+
+            $table->primary(['seller_id', 'order_id']);
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('seller_orders');
     }
 };

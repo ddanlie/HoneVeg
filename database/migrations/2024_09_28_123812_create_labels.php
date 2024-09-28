@@ -11,24 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id('product_id')->primary();
-            $table->unsignedBigInteger('seller_user_id')->references('user_id')->on('users');
+        Schema::create('labels', function (Blueprint $table) {
+            $table->id('label_id')->primary()->references('label_id')->on('change_categories_design_labels')->references('label_id')->on('product_label_values');
             $table->unsignedBigInteger('category_id')->references('category_id')->on('categories');
-            $table->float('price');
-            $table->text('description')->nullable();
-            $table->integer('available_amount');
-            $table->float('total_rating');
             $table->string('name');
-            #$table
+            $table->enum('type', ['int', 'text', 'float', 'date'])->default('text');
         });
-    } 
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('labels');
     }
 };

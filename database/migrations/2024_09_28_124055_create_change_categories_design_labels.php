@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->references('user_id')->on('users');
-            $table->enum('role', ['admin', 'moderator', 'user', 'seller', 'suspended']);
-            
-            $table->primary(['user_id', 'role']);
+        Schema::create('change_categories_design_labels', function (Blueprint $table) {
+            $table->unsignedBigInteger('label_id')->references('label_id')->on('labels')->primary();
+            $table->unsignedBigInteger('design_id')->references('design_id')->on('change_categories_designs');
         });
     }
 
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('change_categories_design_labels');
     }
 };
