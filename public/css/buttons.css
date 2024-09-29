@@ -1,0 +1,36 @@
+:root
+{
+    --purple-style-1: #65558F;
+}
+
+.navButton
+{
+    width: auto;
+    height: 30px;
+    background-color: white;
+    border-radius: 15px;
+    border-color: white;
+    border-style: solid;
+}
+
+.navButton:focus
+{
+    border-color: black;
+}
+
+.defaultButton
+{
+    color: white;
+    white-space: nowrap;
+    width: auto;
+    height: 30px;
+    background-color: var(--purple-style-1);
+    border-radius: 15px;
+    border-color: var(--purple-style-1);
+    border-style: solid;
+}
+
+.defaultButton:focus
+{
+    border-color: black;
+}

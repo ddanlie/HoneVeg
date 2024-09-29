@@ -1,0 +1,11 @@
+@import url('buttons.css');
+@import url('home.css');
+@import url('header.css');
+
+body
+{
+    width: 50%;
+    margin: 0 auto;
+    /* padding-right: 20%;
+    padding-left: 20%; */
+}

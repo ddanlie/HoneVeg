@@ -1,0 +1,15 @@
+.catalog
+{
+    display: flex;
+    width: 80%;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.filters
+{
+    display: flex;
+    width: 20%;
+    background-color: #D2D2D2;
+    border: 1px solid black;
+}

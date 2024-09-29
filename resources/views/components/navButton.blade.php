@@ -1,0 +1,1 @@
+<button class="navButton">{{$slot}}</button>  

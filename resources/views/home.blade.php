@@ -1,12 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-  </head>
-  <body>
-    <main>
-        <h1>Welcome to My Website</h1>  
-    </main>
-  </body>
+<x-default>
+    <x-postHeaderContent></x-postHeaderContent>
+
+    <section style="display: flex; justify-content: space-between;">
+      <main class="catalog">
+        
+          <h1>Main Content</h1>
+
+      </main>
+
+      <aside class="filters">
+          <h1>Filters</h1>
+      </aside>
+    </section>
+
+
+</x-default>
