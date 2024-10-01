@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('change_categories_designs', function (Blueprint $table) {
-            $table->id('design_id')->primary();
+            $table->id('design_id');
             $table->unsignedBigInteger('moderator_id')->references('user_id')->on('users');
             $table->unsignedBigInteger('creator_id')->references('user_id')->on('users');
             $table->unsignedBigInteger('parent_category_id')->references('category_id')->on('categories');

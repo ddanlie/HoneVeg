@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('label_id')->references('label_id')->on('labels');
             $table->string('label_value');
 
-            $table->primary(['product_id', 'label']);
+            $table->primary(['product_id', 'label_id']);
         });
     }
 

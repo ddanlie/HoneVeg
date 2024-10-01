@@ -1,7 +1,6 @@
-:root
-{
-    --purple-style-1: #65558F;
-}
+@import url('vars.css');
+
+
 
 .navButton
 {
@@ -9,28 +8,35 @@
     height: 30px;
     background-color: white;
     border-radius: 15px;
-    border-color: white;
     border-style: solid;
+    font-family: var(--secondary-text-style);
+    font-size: var(--secondary-text-size);
 }
 
-.navButton:focus
-{
-    border-color: black;
-}
 
 .defaultButton
 {
-    color: white;
+    color: black;
     white-space: nowrap;
     width: auto;
     height: 30px;
-    background-color: var(--purple-style-1);
+    background-color: var(--yellow-style);;
     border-radius: 15px;
     border-color: var(--purple-style-1);
     border-style: solid;
+    font-family: var(--secondary-text-style);
+    font-size: var(--secondary-text-size);
 }
 
-.defaultButton:focus
+.notChosenButton
 {
+    border-width: 0px;
+} 
+
+
+.chosenButton
+{
+    border-width: 2px;
     border-color: black;
-}
+} 
+

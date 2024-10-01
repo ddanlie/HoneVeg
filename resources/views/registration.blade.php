@@ -1,3 +1,5 @@
 <x-default>
-    <h1>Registartion</h1>
+    <x-postHeaderContent>
+        <h1>Registartion</h1>
+    </x-postHeaderContent>
 </x-default>

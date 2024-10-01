@@ -1,15 +1,37 @@
+@import url('vars.css');
+
+.homeContent
+{
+    display: flex; 
+    justify-content: space-between;
+}
+
 .catalog
 {
     display: flex;
+    justify-content: center;
     width: 80%;
     background-color: white;
     border: 1px solid black;
+}
+
+.catalog h1
+{
+    font-family: var(--primary-text-style);
+    font-size: var(--primary-text-size);
 }
 
 .filters
 {
     display: flex;
     width: 20%;
+    justify-content: center;
     background-color: #D2D2D2;
     border: 1px solid black;
+}
+
+.filters h1
+{
+    font-family: var(--primary-text-style);
+    font-size: var(--primary-text-size);
 }
