@@ -3,17 +3,32 @@
 .homeContent
 {
     display: flex; 
-    justify-content: space-between;
 }
+
+.catalogContent
+{
+    display: flex;
+}
+
+.homeCatalogCard
+{
+    width: auto;
+    height: auto;
+    background-color: aquamarine;
+}
+
 
 .catalog
 {
-    display: flex;
-    justify-content: center;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 80%;
+    text-align: center;
     width: 80%;
     background-color: white;
     border: 1px solid black;
 }
+
 
 .catalog h1
 {
@@ -35,3 +50,4 @@
     font-family: var(--primary-text-style);
     font-size: var(--primary-text-size);
 }
+
