@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Event extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     protected $table = 'events';
+    protected $primaryKey = 'event_id';
 
     public function seller()
     {

@@ -19,8 +19,24 @@ use App\Http\Controllers\ProfileController;
 */
 
 Route::get('/home', [HomeController::class, 'index'])->name("home.index");
-Route::get('/categories', [CategoriesController::class, 'index'])->name("categories.index");;
-Route::get('/events', [EventsController::class, 'index'])->name("events.index");;
-Route::get('/register', [RegistrationController::class, 'index'])->name("registration.index");;
-Route::get('/signin', [SignInController::class, 'index'])->name("signin.index");;
-Route::get('/profile', [ProfileController::class, 'index'])->name("profile.index");;
+
+Route::get('/categories', [CategoriesController::class, 'index'])->name("categories.index");
+
+Route::get('/events', [EventsController::class, 'index'])->name("events.index")
+    ->middleware('auth');
+
+Route::get('/register', [RegistrationController::class, 'index'])->name("register.index")
+    ->middleware('guest');
+Route::post('/register', [RegistrationController::class, 'store'])->name("register.store")  
+    ->middleware('guest');
+
+Route::get('/signin', [SignInController::class, 'index'])->name("login")
+    ->middleware('guest');
+Route::post('/signin', [SignInController::class, 'signin'])
+    ->middleware('guest');
+Route::patch('/signin', [SignInController::class, 'logout'])
+    ->middleware('auth');
+ 
+Route::get('/profile', [ProfileController::class, 'index'])->name("profile.index")
+    ->middleware('auth');
+

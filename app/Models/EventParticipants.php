@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class EventParticipants extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     protected $table = 'event_participants';
 }

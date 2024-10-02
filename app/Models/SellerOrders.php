@@ -11,6 +11,8 @@ class SellerOrders extends Model
 
     protected $table = 'seller_orders';
 
+
+
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id', 'order_id');

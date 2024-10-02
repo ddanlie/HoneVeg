@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ChangeCategoriesDesignLabels extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     protected $table = 'change_categories_design_labels';
 }

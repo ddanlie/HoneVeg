@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ChangeCategoriesDesign extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     protected $table = 'change_categories_designs';
+    protected $primaryKey = 'design_id';
 
     public function moderator()
     {

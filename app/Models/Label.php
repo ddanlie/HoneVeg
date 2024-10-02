@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Label extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     protected $table = 'labels';
+    protected $primaryKey = 'label_id';
 
     public function category()
     {

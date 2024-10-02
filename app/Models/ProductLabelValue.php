@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductLabelValue extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     protected $table = 'product_label_values';
 
     public function label()
