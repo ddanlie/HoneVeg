@@ -18,9 +18,9 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
-Route::get('/home', [HomeController::class, 'index']);
-Route::get('/categories', [CategoriesController::class, 'index']);
-Route::get('/events', [EventsController::class, 'index']);
-Route::get('/registration', [RegistrationController::class, 'index']);
-Route::get('/signin', [SignInController::class, 'index']);
-Route::get('/profile', [ProfileController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index'])->name("home.index");
+Route::get('/categories', [CategoriesController::class, 'index'])->name("categories.index");;
+Route::get('/events', [EventsController::class, 'index'])->name("events.index");;
+Route::get('/register', [RegistrationController::class, 'index'])->name("registration.index");;
+Route::get('/signin', [SignInController::class, 'index'])->name("signin.index");;
+Route::get('/profile', [ProfileController::class, 'index'])->name("profile.index");;

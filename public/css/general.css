@@ -4,8 +4,23 @@
 @import url('vars.css');
 
 
+h1
+{
+    font-family: var(--primary-text-style) !important;
+    font-size: var(--primary-text-size);
+    margin: 0;
+}
+
+h2
+{
+    font-family: var(--secondary-text-style);
+    font-size: var(--secondary-text-size);
+    margin: 0;
+}
+
 body
 {
+    overflow: auto;
     width: 50%;
     margin: 0 auto;
 }
@@ -17,4 +32,15 @@ body
         width: 100%;
         margin: 0 auto;
     }
+}
+
+
+.hiddenElement
+{
+    visibility: hidden;
+}
+
+.visibleElement
+{
+    visibility: visible;
 }
