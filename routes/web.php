@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\ProductPageController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SignInController;
 use App\Http\Controllers\ProfileController;
@@ -20,9 +21,15 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/home', [HomeController::class, 'index'])->name("home.index");
 
+
 Route::get('/categories', [CategoriesController::class, 'index'])->name("categories.index");
 
 Route::get('/events', [EventsController::class, 'index'])->name("events.index")
+    ->middleware('auth');
+
+Route::get('/product/{product_id}', [ProductPageController::class, 'index']);
+
+Route::get('/profile', [ProfileController::class, 'index'])->name("profile.index")
     ->middleware('auth');
 
 Route::get('/register', [RegistrationController::class, 'index'])->name("register.index")
@@ -37,6 +44,5 @@ Route::post('/signin', [SignInController::class, 'signin'])
 Route::patch('/signin', [SignInController::class, 'logout'])
     ->middleware('auth');
  
-Route::get('/profile', [ProfileController::class, 'index'])->name("profile.index")
-    ->middleware('auth');
+
 

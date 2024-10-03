@@ -7,7 +7,7 @@
                     <h1 >Sign In</h1>
                     
                     <label>
-                        <h2 style="text-align: left; margin:5% 0 0 10%;">Email</h2>
+                        <h2 style="text-align: left; margin:5% 0 0 20%;">Email</h2>
                         <input type="email" name="email" maxlength=64 required value="{{old('email')}}" style="padding: 5px; border-radius: 20px;">
                     </label>
                     
@@ -18,7 +18,7 @@
                     @enderror
 
                     <label>
-                        <h2 style="text-align: left; margin:5% 0 0 10%;">Password</h2>
+                        <h2 style="text-align: left; margin:5% 0 0 20%;">Password</h2>
                         <input type="password" maxlength=64 minlength=6 name="password" required style="padding: 5px; border-radius: 20px;">
                         
                     </label>

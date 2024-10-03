@@ -1,0 +1,3 @@
+@props(['product'])
+
+{{$product->name}}

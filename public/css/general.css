@@ -2,6 +2,8 @@
 @import url('home.css');
 @import url('head.css');
 @import url('vars.css');
+@import url('catalog.css');
+/* @import url('.css'); */
 
 
 h1
@@ -20,8 +22,8 @@ h2
 
 body
 {
-    overflow: auto;
-    width: 50%;
+    overflow-y: scroll;
+    width: 70%;
     margin: 0 auto;
 }
 
@@ -44,3 +46,16 @@ body
 {
     visibility: visible;
 }
+
+.notExistingElement
+{
+    pointer-events: none;
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+}
+
+
+
+
+
