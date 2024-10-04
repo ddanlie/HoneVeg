@@ -21,8 +21,11 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/home', [HomeController::class, 'index'])->name("home.index");
 
-
 Route::get('/categories', [CategoriesController::class, 'index'])->name("categories.index");
+
+Route::get('/categories/{hierarchy}', [CategoriesController::class, 'show'])
+    ->where('hierarchy', '^[^\/]+(\/[^\/]+)*$')// hierarchy = a/suba/subsuba/subsubsuba
+    ->name("categories.show");
 
 Route::get('/events', [EventsController::class, 'index'])->name("events.index")
     ->middleware('auth');

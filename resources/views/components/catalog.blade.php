@@ -3,17 +3,15 @@
 <catalog>
     <section class="catalogStructure">
         <main class="catalog">
-            <h1 style="margin-top: 5%; margin-bottom: 5%;">Catalog</h1>
-            <hr style="border-top:1px grey solid;" width="90%">
-            <div class="pagination" style="margin-top: 10%">
-                {{$products->links()}}
-            </div>
+            <h1 style="margin-top: 5%; margin-bottom: 2%;">Catalog</h1>
+            <hr style="border-top:1px grey solid; " width="90%">
             <div class="catalogContent">
                 @foreach($products as $product)
-                    <x-productCard :product="$product"></x-productCard>      
+                    <a href="{{ url('/product/'.$product->product_id) }}" style="text-decoration: none; color:inherit;"><x-productCard :product="$product"></x-productCard></a>    
                 @endforeach 
             </div>
-            <div class="pagination">
+            <hr style="border-top:1px grey solid; " width="90%">
+            <div class="pagination" style="margin-bottom: 5%;">
                 {{$products->links()}}
             </div>
         </main>

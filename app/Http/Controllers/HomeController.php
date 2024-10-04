@@ -10,8 +10,8 @@ class HomeController extends Controller
     public function index()
     {
         //get catalog from DB
-        $items = 5;
-        $products = Product::whereNotNull('name')->paginate($itemsgit a);
+        $items = 4;
+        $products = Product::whereNotNull('product_id')->paginate($items);
         return view('home', [
             "products" => $products
         ]);

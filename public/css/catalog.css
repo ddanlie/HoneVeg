@@ -5,26 +5,6 @@
     display: flex; 
 }
 
-.catalogContent
-{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    row-gap: 0%;
-    margin-left: -15%;
-    column-gap: 8%;
-    row-gap: 10%;
-    padding-bottom: 20%;
-    margin-top: 10%;
-}
-
-.homeCatalogCard
-{
-    width: auto;
-    height: auto;
-    background-color: aquamarine;
-}
-
-
 .catalog
 {
     display: flex;
@@ -34,6 +14,63 @@
     width: 80%;
     background-color: white;
     border: 1px solid black;
+}
+
+
+.catalogContent
+{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    margin-left: -20%;
+    column-gap: 10%;
+    row-gap: 10%;
+    padding: 5% 0 10% 0;
+}
+
+@media (max-width: 1900px) {
+    .catalogContent {
+        grid-template-columns: repeat(3, 1fr);
+        margin-left: -10%;
+    }
+}
+
+@media (max-width: 1400px) {
+    .catalogContent {
+        grid-template-columns: repeat(2, 1fr);
+        margin-left: -5%;
+        padding: 10% 0 20% 0;
+    }
+}
+
+@media (max-width: 700px) {
+    .catalogContent {
+        grid-template-columns: 1fr;
+        margin-left: -5%;
+        padding: 10% 0 100% 0;
+    }
+}
+
+
+
+.catalogCard
+{
+    display: flex;
+    flex-direction: column;
+    border-radius: 10%;
+
+}
+
+.cardInfo
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.cardInfo h1
+{
+    max-width: 200px;
+    word-break: break-word; 
 }
 
 
@@ -58,7 +95,7 @@
     align-items: center;
     list-style-type: none;
     padding: 0;
-    padding-bottom: 10%;
+    padding-bottom: 0%;
 }
 
 
@@ -81,8 +118,8 @@
 
 .pagination svg 
 {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     margin-bottom: -10%;
 }
 

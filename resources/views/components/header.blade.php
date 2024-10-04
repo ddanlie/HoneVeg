@@ -11,7 +11,7 @@
             $homeBtn = $catBtn = $evBtn = $regBtn = $signinBtn = $notChosen;
         @endphp
         @if (Route::currentRouteNamed("home.index")) @php $homeBtn = $chosen; @endphp @endif
-        @if (Route::currentRouteNamed("categories.index")) @php $catBtn = $chosen; @endphp @endif
+        @if (Route::currentRouteNamed(["categories.index", "categories.show"])) @php $catBtn = $chosen; @endphp @endif
         @if (Route::currentRouteNamed("events.index")) @php $evBtn = $chosen; @endphp @endif
         @if (Route::currentRouteNamed("register.index")) @php  $regBtn =  $chosen;  @endphp @endif 
         @if (Route::currentRouteNamed("login")) @php $signinBtn =  $chosen; @endphp @endif 
