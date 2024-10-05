@@ -10,7 +10,7 @@ class OrderProductList extends Model
     use HasFactory;
     protected $guarded = [];
     protected $table = 'order_product_lists';
-
+    protected $primaryKey = 'order_product_list_id';
 
     public function order()
     {

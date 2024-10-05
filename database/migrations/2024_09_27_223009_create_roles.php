@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('roles', function (Blueprint $table) {
+            $table->id('role_id');
             $table->unsignedBigInteger('user_id')->references('user_id')->on('users');
             $table->enum('role', ['admin', 'moderator', 'user', 'seller', 'suspended']);
-            
-            $table->primary(['user_id', 'role']);
+        
         });
     }
 

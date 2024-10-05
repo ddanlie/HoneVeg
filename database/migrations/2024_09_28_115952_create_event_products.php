@@ -12,10 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('event_products', function (Blueprint $table) {
+            $table->id('event_product_id');
             $table->unsignedBigInteger('event_id')->references('event_id')->on('events');
             $table->unsignedBigInteger('product_id')->references('product_id')->on('products');
-
-            $table->primary(['event_id', 'product_id']);
         });
     }
 

@@ -10,7 +10,8 @@ class Rating extends Model
     use HasFactory;
     protected $guarded = [];
     protected $table = 'raitings';
-
+    protected $primaryKey = 'rating_id';
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');

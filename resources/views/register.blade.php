@@ -12,9 +12,9 @@
                     </label>
                     
                     @error("email")
-                        <h2 style="font-size: 12px; color:red; text-align:left; margin: 0 0 0 10%; ">{{$message}}</h2>
+                        <h2 style="font-size: 12px; color:red; text-align:center;">{{$message}}</h2>
                     @else
-                        <h2 style="font-size: 12px; color:red; text-align:left; margin: 0 0 0 10%; visibility: hidden;">fantom error message</h2>
+                        <h2 style="font-size: 12px; color:red; text-align:center;visibility: hidden;">fantom error message</h2>
                     @enderror
                     
                     <label>
@@ -24,9 +24,9 @@
                     </label>
 
                     @error("name")
-                    <h2 style="font-size: 12px; color:red; text-align:left; margin: 0 0 0 10%; ">{{$message}}</h2>
+                    <h2 style="font-size: 12px; color:red; text-align:center;">{{$message}}</h2>
                     @else
-                        <h2 style="font-size: 12px; color:red; text-align:left; margin: 0 0 0 10%; visibility: hidden;">fantom error message</h2>
+                        <h2 style="font-size: 12px; color:red; text-align:center;visibility: hidden;">fantom error message</h2>
                     @enderror
 
                     <label>
@@ -36,9 +36,9 @@
                     </label>
                     
                     @error("password")
-                        <h2 style="font-size: 12px; color:red; text-align:left; margin: 0 0 0 10%; ">{{$message}}</h2>
+                        <h2 style="font-size: 12px; color:red; text-align:center;">{{$message}}</h2>
                     @else
-                        <h2 style="font-size: 12px; color:red; text-align:left; margin: 0 0 0 10%; visibility: hidden;">fantom error message</h2>
+                        <h2 style="font-size: 12px; color:red; text-align:center; visibility: hidden;">fantom error message</h2>
                     @enderror
 
                     <x-defaultButton style="margin-top: 15%; color:white; background-color: var(--green-style);">Register</x-defaultButton>

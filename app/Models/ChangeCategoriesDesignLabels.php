@@ -10,4 +10,5 @@ class ChangeCategoriesDesignLabels extends Model
     use HasFactory;
     protected $guarded = [];
     protected $table = 'change_categories_design_labels';
+    protected $primaryKey = 'change_categories_design_label_id';
 }

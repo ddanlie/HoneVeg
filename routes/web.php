@@ -30,10 +30,16 @@ Route::get('/categories/{hierarchy}', [CategoriesController::class, 'show'])
 Route::get('/events', [EventsController::class, 'index'])->name("events.index")
     ->middleware('auth');
 
-Route::get('/product/{product_id}', [ProductPageController::class, 'index']);
+Route::get('/product/{product_id}', [ProductPageController::class, 'index'])->name("product.index")
+    ->where('product_id', '^\d+$');;
 
-Route::get('/profile', [ProfileController::class, 'index'])->name("profile.index")
-    ->middleware('auth');
+Route::get('/profile/{user_id}', [ProfileController::class, 'index'])->name("profile.index")
+    ->middleware('auth')
+    ->where('user_id', '^\d+$');
+
+Route::patch('/profile/{user_id}', [ProfileController::class, 'edit'])->name("profile.edit")
+    ->middleware('auth')
+    ->where('user_id', '^\d+$');
 
 Route::get('/register', [RegistrationController::class, 'index'])->name("register.index")
     ->middleware('guest');
@@ -47,5 +53,6 @@ Route::post('/signin', [SignInController::class, 'signin'])
 Route::patch('/signin', [SignInController::class, 'logout'])
     ->middleware('auth');
  
+
 
 

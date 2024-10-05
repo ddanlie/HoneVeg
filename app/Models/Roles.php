@@ -10,6 +10,7 @@ class Roles extends Model
     use HasFactory;
     protected $guarded = [];
     public $timestamps = false;
+    protected $primaryKey = 'role_id';
     protected $table = 'roles';
 
     public function user()

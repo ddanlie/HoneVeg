@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('change_categories_design_labels', function (Blueprint $table) {
-            $table->unsignedBigInteger('label_id')->references('label_id')->on('labels')->primary();
+            $table->id('change_categories_design_label_id');
+            $table->unsignedBigInteger('label_id')->references('label_id')->on('labels');
             $table->unsignedBigInteger('design_id')->references('design_id')->on('change_categories_designs');
         });
     }

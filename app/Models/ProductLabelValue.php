@@ -10,7 +10,8 @@ class ProductLabelValue extends Model
     use HasFactory;
     protected $guarded = [];
     protected $table = 'product_label_values';
-
+    protected $primaryKey = 'product_label_values_id';
+    
     public function label()
     {
         return $this->belongsTo(User::class, 'label_id', 'label_id');

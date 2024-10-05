@@ -10,7 +10,7 @@ class SellerOrders extends Model
     use HasFactory;
 
     protected $table = 'seller_orders';
-
+    protected $primaryKey = 'seller_order_id';
 
 
     public function order()

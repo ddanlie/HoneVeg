@@ -14,7 +14,7 @@
         @if (Route::currentRouteNamed(["categories.index", "categories.show"])) @php $catBtn = $chosen; @endphp @endif
         @if (Route::currentRouteNamed("events.index")) @php $evBtn = $chosen; @endphp @endif
         @if (Route::currentRouteNamed("register.index")) @php  $regBtn =  $chosen;  @endphp @endif 
-        @if (Route::currentRouteNamed("login")) @php $signinBtn =  $chosen; @endphp @endif 
+        @if (Route::currentRouteNamed("login")) @php $signinBtn = $chosen; @endphp @endif 
 
         <a href={{ url("/home") }}><x-navButton class={{$homeBtn}}>Home</x-navButton></a>
         <a href="{{ url("/categories") }}"><x-navButton class={{$catBtn}}>Categories</x-navButton></a>
@@ -32,7 +32,7 @@
                 @csrf
                 @method('PATCH')
             </form>
-            <a href="{{ url("/profile") }}" style="border-radius: 25px; border: 3px black solid; display:flex"><img src="{{ asset('/icons/user.png') }}" width=40 heigh=40 style="background-color: var(--background-style); border-radius: 25px;"></a>
+            <a href="{{ url('/profile/'. Auth::user()->user_id) }}" style="border-radius: 25px; border: 3px black solid; display:flex"><img src="{{ asset('/icons/user.png') }}" width=40 heigh=40 style="background-color: var(--background-style); border-radius: 25px;"></a>
             <a href="{{ url("/home") }}" style="display:flex; align-items:center; text-decoration: none;"><x-defaultButton type="submit" form="lout" class={{$signinBtn}}>Log out</x-defaultButton></a>
         @endauth
     </div>

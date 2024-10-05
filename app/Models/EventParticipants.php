@@ -10,4 +10,5 @@ class EventParticipants extends Model
     use HasFactory;
     protected $guarded = [];
     protected $table = 'event_participants';
+    protected $primaryKey = 'event_participants_id';
 }
