@@ -3,6 +3,7 @@
 @import url('head.css');
 @import url('vars.css');
 @import url('buttons.css');
+@import url('profile.css');
 @import url('catalog.css');
 @import url('categories.css');
 @import url('subcategories.css');
@@ -63,6 +64,30 @@ body
     width: 0px;
     height: 0px;
 }
+
+
+/* webkit browser
+.activity::-webkit-scrollbar {
+    width: 20px;
+}
+
+.activity::-webkit-scrollbar-track {
+    background: #2b2b2b;
+}
+
+.activity::-webkit-scrollbar-thumb {
+    background: #999;
+}
+
+.activity::-webkit-scrollbar-thumb:hover {
+    background: #555;
+} */
+
+/* firefox */
+/* .activity {
+
+
+} */
 
 
 

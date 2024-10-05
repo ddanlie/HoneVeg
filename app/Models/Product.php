@@ -40,10 +40,10 @@ class Product extends Model
 
     public function ratedBy()
     {   
-        return $this->belongsToMany(User::class, 'raitings', 'product_id', 'user_id', 'product_id', 'user_id');
+        return $this->belongsToMany(User::class, 'ratings', 'product_id', 'user_id', 'product_id', 'user_id');
     }
 
-    public function raitings()
+    public function ratings()
     {
         return $this->hasMany(Rating::class, 'product_id', 'product_id');
     }

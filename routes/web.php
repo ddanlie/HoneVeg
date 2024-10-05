@@ -30,8 +30,12 @@ Route::get('/categories/{hierarchy}', [CategoriesController::class, 'show'])
 Route::get('/events', [EventsController::class, 'index'])->name("events.index")
     ->middleware('auth');
 
+ Route::get('/events/{event_id}', [EventsController::class, 'show'])->name("events.show")
+    ->middleware('auth')
+    ->where('event_id', '^\d+$');
+
 Route::get('/product/{product_id}', [ProductPageController::class, 'index'])->name("product.index")
-    ->where('product_id', '^\d+$');;
+    ->where('product_id', '^\d+$');
 
 Route::get('/profile/{user_id}', [ProfileController::class, 'index'])->name("profile.index")
     ->middleware('auth')

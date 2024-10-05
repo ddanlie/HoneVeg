@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -14,15 +15,51 @@ class ProfileController extends Controller
     {
         $user = User::where('user_id', $user_id)->first();
 
-
-        $ords = $user->sellerOrders();
-        $earnings = 0;
-        if($ords)
-            $earnings = $ords->with('order_product_list')->with('products')->where('seller_id', $user_id);
+        $exinfo = [
+            'earned' => 0, 
+            'rating' => 0, 
+            'ratedProducts' => [],
+            'events' => [],
+            'orders' => []
+        ];
+         
+        //earned
+        $earned = DB::table('products')
+        ->join('order_product_lists', 'products.product_id', '=', 'order_product_lists.product_id')
+        ->join('orders', 'order_product_lists.order_id', '=', 'orders.order_id')
+        ->join('seller_orders', 'orders.order_id', '=', 'seller_orders.order_id')
+        ->where('products.seller_user_id', $user_id)->where('orders.status', 'delivered')
+        ->select(DB::raw('SUM(products.price * order_product_lists.product_amount) as total_earnings'))
+        ->value('total_earnings');
+        if($earned)
+            $exinfo['earned'] = $earned; 
         
+        //rating
+        $count = $user->saleProducts()->count();
+        if($count > 0)
+        {
+            $ratingSum = $user->saleProducts()->select(DB::raw('SUM(products.total_rating) as rating_sum'))->value('rating_sum');
+            $exinfo['rating'] = $ratingSum / $count;
+        }
+        
+        //rated products
+        $rated = $user->ratings()->join('products', 'ratings.product_id', '=', 'products.product_id')->get();
+        if($rated)
+            $exinfo['ratedProducts'] = $rated;
+
+        //events
+        $events = $user->events()->get();
+        if($events)
+            $exinfo['events'] = $events;
+
+        //orders
+        $orders = $user->createdOrders()->get();
+        if($orders)
+            $exinfo['orders'] = $orders;
+
         return view('profile.profile', [
             'user' => $user,
-            'user_earned' => $earnings
+            'user_exinfo' => $exinfo
         ]);
     }
 

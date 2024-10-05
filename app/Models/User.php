@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function ratedProducts()
     {
-        return $this->belongsToMany(Product::class, 'raitings', 'user_id', 'product_id', 'user_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'ratings', 'user_id', 'product_id', 'user_id', 'product_id');
     }
 
     public function events()

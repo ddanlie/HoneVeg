@@ -10,7 +10,7 @@
                     <a href="{{ url('/product/'.$product->product_id) }}" style="text-decoration: none; color:inherit;"><x-productCard :product="$product"></x-productCard></a>    
                 @endforeach 
             </div>
-            <hr style="border-top:1px grey solid; " width="90%">
+            {{-- <hr style="border-top:1px grey solid; " width="90%"> --}}
             <div class="pagination" style="margin-bottom: 5%;">
                 {{$products->links()}}
             </div>

@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id('seller_order_id');
             $table->unsignedBigInteger('seller_id')->references('user_id')->on('users');
             $table->unsignedBigInteger('order_id')->references('order_id')->on('orders');
-            $table->unsignedBigInteger('product_amount');
-            $table->check('product_amount > 0');
         });
     }
 

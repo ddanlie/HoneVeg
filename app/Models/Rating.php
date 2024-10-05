@@ -9,7 +9,7 @@ class Rating extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $table = 'raitings';
+    protected $table = 'ratings';
     protected $primaryKey = 'rating_id';
     
     public function user()
@@ -21,4 +21,5 @@ class Rating extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'product_id');
     }
+
 }
