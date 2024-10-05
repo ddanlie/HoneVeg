@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use App\Models\ChangeCategoriesDesign;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Label>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DesignLabels>
  */
-class LabelFactory extends Factory
+class DesignLabelsFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class LabelFactory extends Factory
     public function definition(): array
     {
         return [
-            'category_id' => Category::factory(),
+            'design_id' => ChangeCategoriesDesign::factory(),
             'name' => fake()->word(),
             'type' => fake()->randomElement(['int', 'text', 'float', 'date'])
         ];

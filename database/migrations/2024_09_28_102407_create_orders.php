@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_user_id')->references('user_id')->on('users');
             $table->dateTime('creation_date');
             $table->dateTime('close_date');
-            $table->dateTime('delivery date');
+            $table->dateTime('delivery_date');
             $table->enum('status', ['draft', 'in process', 'cancelled', 'delivered'])->default('draft');
         });
     }

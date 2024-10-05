@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('labels', function (Blueprint $table) {
-            $table->id('label_id')->references('label_id')->on('change_categories_design_labels')->references('label_id')->on('product_label_values');
+            $table->id('label_id')->references('label_id')->on('product_label_values');
             $table->unsignedBigInteger('category_id')->references('category_id')->on('categories');
             $table->string('name');
             $table->enum('type', ['int', 'text', 'float', 'date'])->default('text');

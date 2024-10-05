@@ -12,6 +12,7 @@ class Event extends Model
     protected $guarded = [];
     protected $table = 'events';
     protected $primaryKey = 'event_id';
+    public $timestamps = false;
 
     public function seller()
     {

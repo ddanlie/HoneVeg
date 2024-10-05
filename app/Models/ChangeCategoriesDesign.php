@@ -11,6 +11,7 @@ class ChangeCategoriesDesign extends Model
     protected $guarded = [];
     protected $table = 'change_categories_designs';
     protected $primaryKey = 'design_id';
+    public $timestamps = false;
 
     public function moderator()
     {
@@ -29,6 +30,6 @@ class ChangeCategoriesDesign extends Model
 
     public function labels()
     {
-        return $this->hasManyThrough(Label::class, ChangeCategoriesDesignLabels::class, 'design_id', 'label_id', 'design_id', 'label_id');
+        return $this->hasMany(DesignLabels::class, 'design_id', 'design_id');
     }
 }

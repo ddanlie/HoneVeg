@@ -9,8 +9,9 @@ class Rating extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $table = 'raitings';
+    protected $table = 'ratings';
     protected $primaryKey = 'rating_id';
+    public $timestamps = false;
     
     public function user()
     {

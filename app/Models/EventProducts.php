@@ -11,4 +11,5 @@ class EventProducts extends Model
     protected $guarded = [];
     protected $table = 'event_products';
     protected $primaryKey = 'event_product_id';
+    public $timestamps = false;
 }

@@ -3,11 +3,13 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
+use App\Models\Order;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FarmerOrders>
  */
-class FarmerOrdersFactory extends Factory
+class SellerOrdersFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +19,10 @@ class FarmerOrdersFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'seller_id' => User::factory()->seller(),
+            'order_id' => Order::factory(),
+            'product_amount' => fake()->randomNumber(3)
         ];
+    
     }
 }
