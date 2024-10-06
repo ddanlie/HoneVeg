@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Event;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,8 @@ class EventProductsFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'event_id' => Event::factory(),
+            'product_id' => Product::factory()
         ];
     }
 }

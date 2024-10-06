@@ -58,7 +58,7 @@ class ProfileController extends Controller
             $exinfo['orders'] = $orders;
 
         return view('profile.profile', [
-            'user' => $user,
+            'userPageOwner' => $user,
             'user_exinfo' => $exinfo
         ]);
     }

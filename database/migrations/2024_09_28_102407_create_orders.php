@@ -17,7 +17,7 @@ return new class extends Migration
             $table->dateTime('creation_date');
             $table->dateTime('close_date');
             $table->dateTime('delivery_date');
-            $table->enum('status', ['draft', 'in process', 'cancelled', 'delivered'])->default('draft');
+            $table->enum('status', ['cart', 'in process', 'cancelled', 'delivered'])->default('cart');
         });
     }
 

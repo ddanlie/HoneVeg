@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class RatingFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory()->user(),
+            'product_id' => Product::factory(),
+            'rating' => fake()->randomFloat(null, 1, 5)
         ];
     }
 }

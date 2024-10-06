@@ -2,6 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\ChangeCategoriesDesign;
+use App\Models\ChangeCategoriesDesignLabels;
+use App\Models\DesignLabels;
+use App\Models\Label;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +23,25 @@ class ChangeCategoriesDesignFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'moderator_id' => User::factory()->moderator(),
+            'creator_id' => User::factory()->withRole(),
+            'parent_category_id' => Category::factory(),
+            'name' => 'category',
+            'description' => fake()->words(),
+            'creation_date' => now(),
+            'close_date' => now(),
+            'status' => fake()->randomElement(['created', 'modified', 'approved', 'declined'])
         ];
     }
+
+    public function configure() {
+        
+
+        return $this->afterCreating(function (ChangeCategoriesDesign $design) {
+            DesignLabels::factory()->create([
+                'design_id' => $design->design_id
+            ]);
+        });
+    }
+
 }

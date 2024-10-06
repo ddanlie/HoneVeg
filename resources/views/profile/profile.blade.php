@@ -1,4 +1,4 @@
-@props(['user', 'user_exinfo'])
+@props(['userPageOwner', 'user_exinfo'])
 
 <x-default>
     <x-header></x-header>
@@ -6,39 +6,37 @@
         @php $style = "font-size: 16px; color:red; text-align:center;" @endphp
         @if(!$errors->any())
             <h2 style="{{$style}}  visibility:hidden;">fantom error message</h2>
+        @else
+            @foreach($errors->all() as $message)
+                <h2 style="{{$style}}">{{$message}}</h2>    
+            @endforeach
         @endif
-
-        @error('edit_profile') 
-            <h2 style="{{$style}}">{{$message}}</h2>
-        @enderror
-
-        @error('image') 
-            <h2 style="{{$style}}">{{$message}}</h2>
-        @enderror
     </div>
     <div class="userBase">
         <div class="userBaseLeft">
-
-            <div class="profileImageContent">
-                @php 
-                    $avatarPath = 'images/users/'.$user->user_id.'.jpg';
-                    $checkPath = public_path($avatarPath) 
-                @endphp
-                @if(file_exists($checkPath))
-                    <img width=350 height=500 src="{{asset($avatarPath)}}" style="border-radius: 5%;">
-                @else
-                    <img width=350 height=500 src="{{asset('/images/default/defaultAvatar.jpg')}}" style="border-radius: 5%;">
-                @endif
-                <form id="loadimgform" method="POST" action={{url('/profile/'.$user->user_id)}} enctype="multipart/form-data">
-                    @csrf
-                    @method("PATCH")
-                    <input type="file" name="image">    
-                </form>
-                <h2 style="font-size:16px;">Image size: 350x500</h2>
-                <x-defaultButton form="loadimgform" type="submit" name="edit_profile" value="change_avatar">Load image</x-defaultButton>
-            </div>
+                <div class="profileImageContent">
+                    @php 
+                        $avatarPath = 'images/users/'.$userPageOwner->user_id.'.jpg';
+                        $checkPath = public_path($avatarPath) 
+                    @endphp
+                    @if(file_exists($checkPath))
+                        <img width=350 height=500 src="{{asset($avatarPath)}}" style="border-radius: 5%;">
+                    @else
+                        <img width=350 height=500 src="{{asset('/images/default/defaultAvatar.jpg')}}" style="border-radius: 5%;">
+                    @endif
+                    @can('own-given-profile-id', $userPageOwner->user_id)
+                        <form id="loadimgform" method="POST" action={{url('/profile/'.$userPageOwner->user_id)}} enctype="multipart/form-data">
+                            @csrf
+                            @method("PATCH")
+                            <input type="file" name="image">    
+                        </form>
+                        <h2 style="font-size:16px;">Image size: 350x500</h2>
+                        <x-defaultButton form="loadimgform" type="submit" name="edit_profile" value="change_avatar">Load image</x-defaultButton>    
+                    @endcan   
+                </div>
             <div class="statusInfo">
                 <div>
+                    {{-- <h1>{{$userPageOwner->name}}</h1> --}}
                     <h1>Status:</h1>
                     <h2>User</h2> 
                     @php
@@ -47,49 +45,32 @@
                     @endphp
 
                     @foreach($cans as $what => $who)
-                        {{-- @can($what) --}}
+                        @can($what, $userPageOwner->user_id)
                             @php
                                 $could += 1;
                             @endphp
                             <h2>{{$who}}</h2>
-                        {{-- @endcan --}}   
+                        @endcan   
                     @endforeach
 
                     @php
                         for($i = 0; $i < count($cans)-$could; $i++)
                             echo '<h2 style="visibility:hidden;">fantom status</h2>'
                     @endphp
-                    
-                    {{-- @can('be-admin')
-                        <h2>Admin</h2>
-                    @else
-                        <h2 style="visibility:hidden;">fantom status</h2>
-                    @endcan
-
-                    @can('be-moder')
-                        <h2>Moder</h2>
-                    @else
-                        <h2 style="visibility:hidden;">fantom status</h2>
-                    @endcan
-                
-                    @can('be-seller')
-                        <h2>Seller</h2>
-                    @else
-                        <h2 style="visibility:hidden;">fantom status</h2>
-                    @endcan
-                     --}}
-
-                    <hr></hr>
                 </div>
-                <form id="editForm" method="POST" action={{url('/profile/'.$user->user_id)}}>
+                <form id="editForm" method="POST" action={{url('/profile/'.$userPageOwner->user_id)}}>
                     @csrf
                     @method("PATCH")
                 </form>
-                @can('be-seller')
-                    <x-defaultButton form="editForm" type="submit" name="edit_profile" value="stop_selling">Stop selling</x-defaultButton>
-                @else
-                    <x-defaultButton form="editForm" type="submit" name="edit_profile" value="start_selling">Start selling</x-defaultButton>
+                @can('own-given-profile-id', $userPageOwner->user_id)
+                    @can('be-seller')
+                        <x-defaultButton form="editForm" type="submit" name="edit_profile" value="stop_selling">Stop selling</x-defaultButton>
+                    @else
+                        <x-defaultButton form="editForm" type="submit" name="edit_profile" value="start_selling">Start selling</x-defaultButton>
+                    @endcan
                 @endcan
+            
+
             </div>
         </div>
 
@@ -98,12 +79,15 @@
             
             <div class="userInfo">
                 <hr></hr>
-                <span style="display: flex; justify-content: space-between;"><h2>Earned:</h2><h2>{{$user_exinfo['earned']}} Kč</h2></span>
+                @can('own-given-profile-id', $userPageOwner->user_id)
+                    <span style="display: flex; justify-content: space-between;"><h2>Earned:</h2><h2>{{$user_exinfo['earned']}} Kč</h2></span>
+                @endcan
                 <span style="display: flex; justify-content: space-between;"><h2>Rating:</h2><h2>{{$user_exinfo['rating']}}/5</h2></span>
             </div>
         </div>
     </div>
     <div class="userActivities">
+        @can('own-given-profile-id', $userPageOwner->user_id)
             <div class="activity myActivity">
                     <h1 style="color:white;">Rated products</h1>
                     @foreach($user_exinfo['ratedProducts'] as $product)
@@ -115,9 +99,9 @@
                     </a>
                     @endforeach
             </div>
-            
+
             <div class="activity myActivity">
-                    <h1 style="color:white;">My events</h1>
+                    <h1 style="color:white;">Events</h1>
                     @foreach($user_exinfo['events'] as $event)
                     <a href="{{url('/events/'.$event->event_id)}}">
                         <div class="activityItem">
@@ -133,15 +117,17 @@
             </div>
 
             <div class="activity myActivity">
-                <h1 style="color:white;">My orders</h1>
+                <h1 style="color:white;">Orders</h1>
                 @foreach($user_exinfo['orders'] as $order)
                 <a href="{{url('/orders/'.$order->order_id)}}">
                         @php 
                             $date = date_parse($order->creation_date);
                             $hrdate = $monthName = $date['day'].' '.date('M', mktime(0, 0, 0, $date['month'], 0)).' '.$date['hour'].':'.$date['minute'];
 
-                            $states =  ['draft' => 'white', 'in process' => 'yellow', 'cancelled' => 'red', 'delivered' => 'green'];
+                            $states =  ['draft' => 'white', 'cart' => 'white', 'in process' => 'yellow', 'cancelled' => 'red', 'delivered' => 'green'];
                             $color = $states[$order->status];
+                            if(!$color)
+                                $color = "white";
                         @endphp
                     <div class="activityItem" style="background-color: {{$color}};">
 
@@ -153,7 +139,7 @@
             </div>
 
             <div class="activity myActivity">
-                <h1 style="color:white;">My designs:TODO</h1>
+                <h1 style="color:white;">Designs:TODO</h1>
                 @foreach($user_exinfo['orders'] as $order)
                 <a href="{{url('/orders/'.$order->order_id)}}">
                     <div class="activityItem">
@@ -163,16 +149,17 @@
                 </a>
                 @endforeach
             </div>
-
+        @endcan <!-- be profile owner -->    
         @can('be-seller')           
-            <div class="activity mySales">
-
-            </div>
-
-            <div class="activity productsForSale">
-
+            <div class="activity myActivity">
+                <h1 style="color:white;">Sales</h1>
             </div>
         @endcan
+        @canany(['be-seller' => [$userPageOwner->user_id], 'own-given-profile-id' => [$userPageOwner->user_id]])
+            <div class="activity myActivity">
+                <h1 style="color:white;">Sold products</h1>
+            </div>
+        @endcanany    
 
         @can('be-moder')   
             <div class="activity suggestedDesigns">
@@ -180,11 +167,11 @@
             </div> 
         @endcan     
 
-        {{-- @can('be-admin')  --}}
+        @can('be-admin') 
             <div class="activity moders">
 
             </div>
-        {{-- @endcan --}}
+        @endcan
         
         <script>
             const pointerXScroll = (elem) => {
