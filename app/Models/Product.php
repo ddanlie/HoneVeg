@@ -12,6 +12,7 @@ class Product extends Model
     protected $guarded = [];
     protected $table = 'products';
     protected $primaryKey = 'product_id';
+    public $timestamps = false;
         
     public function labels()
     {

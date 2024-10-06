@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('change_categories_design_labels', function (Blueprint $table) {
-            $table->id('change_categories_design_label_id');
-            $table->unsignedBigInteger('label_id')->references('label_id')->on('labels');
+        Schema::create('design_labels', function (Blueprint $table) {
+            $table->id('design_label_id')->references('design_label_id')->on('change_categories_design_labels');
             $table->unsignedBigInteger('design_id')->references('design_id')->on('change_categories_designs');
+            $table->string('name');
+            $table->enum('type', ['int', 'text', 'float', 'date'])->default('text');
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('change_categories_design_labels');
+        Schema::dropIfExists('design_labels');
     }
 };

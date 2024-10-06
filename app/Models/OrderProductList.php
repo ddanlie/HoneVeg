@@ -11,6 +11,7 @@ class OrderProductList extends Model
     protected $guarded = [];
     protected $table = 'order_product_lists';
     protected $primaryKey = 'order_product_list_id';
+    public $timestamps = false;
 
     public function order()
     {

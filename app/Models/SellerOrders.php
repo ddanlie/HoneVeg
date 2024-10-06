@@ -11,7 +11,7 @@ class SellerOrders extends Model
 
     protected $table = 'seller_orders';
     protected $primaryKey = 'seller_order_id';
-
+    public $timestamps = false;
 
     public function order()
     {

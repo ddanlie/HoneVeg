@@ -11,4 +11,5 @@ class EventParticipants extends Model
     protected $guarded = [];
     protected $table = 'event_participants';
     protected $primaryKey = 'event_participants_id';
+    public $timestamps = false;
 }

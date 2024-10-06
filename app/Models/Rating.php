@@ -11,6 +11,7 @@ class Rating extends Model
     protected $guarded = [];
     protected $table = 'ratings';
     protected $primaryKey = 'rating_id';
+    public $timestamps = false;
     
     public function user()
     {

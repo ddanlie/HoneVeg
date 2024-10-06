@@ -11,6 +11,7 @@ class ProductLabelValue extends Model
     protected $guarded = [];
     protected $table = 'product_label_values';
     protected $primaryKey = 'product_label_values_id';
+    public $timestamps = false;
     
     public function label()
     {
