@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\Event;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event>
  */
@@ -15,6 +15,8 @@ class EventFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Event::class;
+
     public function definition(): array
     {
         return [

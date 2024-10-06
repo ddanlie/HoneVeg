@@ -19,6 +19,9 @@ class ProductFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Product::class;
+
+
     public function definition(): array
     {
         return [
@@ -27,7 +30,7 @@ class ProductFactory extends Factory
             'price' => fake()->randomFloat(null, 10, 200),
             'description' => fake()->sentence(),
             'available_amount' => fake()->randomNumber(),
-            'total_rating' => fake()->randomFloat(null, 0, 5),
+            'total_rating' => fake()->randomFloat(null, 4, 5),
             'name' => fake()->word()
         ];
     }

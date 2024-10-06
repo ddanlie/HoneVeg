@@ -24,8 +24,8 @@
     justify-items: center;
     margin-left: -20%;
     column-gap: 10%;
-    row-gap: 10%;
-    padding: 5% 0 10% 0;
+    row-gap: 2%;
+    padding: 5% 0 30% 0;
 }
 
 @media (max-width: 1900px) {

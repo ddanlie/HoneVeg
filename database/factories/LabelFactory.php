@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\Label;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Label>
  */
@@ -15,6 +15,8 @@ class LabelFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Label::class;
+
     public function definition(): array
     {
         return [

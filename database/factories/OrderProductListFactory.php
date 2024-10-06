@@ -18,11 +18,16 @@ class OrderProductListFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = OrderProductList::class;
+
+
+
     public function definition(): array
     {
         return [
             'product_id' => Product::factory(),
-            'order_id' => Order::factory()
+            'order_id' => Order::factory(),
+            'product_amount' => 1
         ];
     }
 

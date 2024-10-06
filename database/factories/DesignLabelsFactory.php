@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\ChangeCategoriesDesign;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\DesignLabels;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DesignLabels>
  */
@@ -15,6 +15,10 @@ class DesignLabelsFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    
+     protected $model = DesignLabels::class;
+   
+
     public function definition(): array
     {
         return [

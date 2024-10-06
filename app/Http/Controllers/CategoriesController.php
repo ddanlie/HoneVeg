@@ -9,7 +9,7 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $items = 3;
+        $items = 20;
         $categories = Category::whereColumn('category_id', 'parent_category_id')->paginate($items);
         
         return view('categories', ['categories' => $categories]);
@@ -21,7 +21,7 @@ class CategoriesController extends Controller
         $nameHierarchy = explode('/', $nameHierarchy);
         $mainCategory = Category::where('name', end($nameHierarchy))->first();
         $subcategories = $mainCategory->subCategories()->where('category_id', '!=', $mainCategory->category_id)->get();
-        $products = $mainCategory->products()->paginate(3);
+        $products = $mainCategory->products()->paginate(HomeController::getCatalogPerPageAmount());
 
         return view('subCategories', [
             'hierarchy' => $nameHierarchy, 

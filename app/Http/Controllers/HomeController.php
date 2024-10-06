@@ -10,10 +10,15 @@ class HomeController extends Controller
     public function index()
     {
         //get catalog from DB
-        $items = 4;
-        $products = Product::whereNotNull('product_id')->paginate($items);
+       
+        $products = Product::whereNotNull('product_id')->paginate($this->getCatalogPerPageAmount());
         return view('home', [
             "products" => $products
         ]);
     }
+
+    public static function getCatalogPerPageAmount()
+    {
+        return 30;//dont change this
+    } 
 }

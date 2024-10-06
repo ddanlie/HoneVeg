@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\OrderProductList;
 use App\Models\Order;
 
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\order>
  */
@@ -18,6 +19,8 @@ class OrderFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Order::class;
+
     public function definition(): array
     {
         return [
@@ -25,7 +28,7 @@ class OrderFactory extends Factory
             'creation_date' => now(),
             'close_date' => now(),
             'delivery_date' => now(),
-            'status' => fake()->randomElement(['draft', 'in process', 'cancelled', 'delivered'])
+            'status' => fake()->randomElement(['cart', 'in process', 'cancelled', 'delivered'])
         ];
     }
 

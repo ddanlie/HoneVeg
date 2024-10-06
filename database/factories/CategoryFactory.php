@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Category;
 use App\Models\Label;
 use App\Models\Product;
-use App\Models\Products;
 use App\Models\User;
 
 /**
@@ -19,6 +18,8 @@ class CategoryFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Category::class;
+
     public function definition(): array
     {
         

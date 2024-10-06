@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Label;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\ProductLabelValue;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductLabelValue>
  */
@@ -16,6 +16,8 @@ class ProductLabelValueFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = ProductLabelValue::class;
+
     public function definition(): array
     {
         return [

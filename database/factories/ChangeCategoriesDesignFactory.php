@@ -20,6 +20,8 @@ class ChangeCategoriesDesignFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = ChangeCategoriesDesign::class;
+
     public function definition(): array
     {
         return [

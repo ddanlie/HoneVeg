@@ -124,7 +124,7 @@
                             $date = date_parse($order->creation_date);
                             $hrdate = $monthName = $date['day'].' '.date('M', mktime(0, 0, 0, $date['month'], 0)).' '.$date['hour'].':'.$date['minute'];
 
-                            $states =  ['draft' => 'white', 'cart' => 'white', 'in process' => 'yellow', 'cancelled' => 'red', 'delivered' => 'green'];
+                            $states =  ['cart' => 'white', 'in process' => 'yellow', 'cancelled' => 'red', 'delivered' => 'green'];
                             $color = $states[$order->status];
                             if(!$color)
                                 $color = "white";
