@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('order_id');
             $table->unsignedBigInteger('customer_user_id')->references('user_id')->on('users');
             $table->dateTime('creation_date');
-            $table->dateTime('close_date');
-            $table->dateTime('delivery_date');
+            $table->dateTime('close_date')->nullable();
+            $table->dateTime('delivery_date')->nullable();
             $table->enum('status', ['cart', 'in process', 'cancelled', 'delivered'])->default('cart');
         });
     }

@@ -37,6 +37,10 @@ Route::get('/events', [EventsController::class, 'index'])->name("events.index")
 Route::get('/product/{product_id}', [ProductPageController::class, 'index'])->name("product.index")
     ->where('product_id', '^\d+$');
 
+Route::post('/product/{product_id}', [ProductPageController::class, 'store'])->name("product.store")
+    ->middleware('auth')
+    ->where('product_id', '^\d+$');
+
 Route::get('/profile/{user_id}', [ProfileController::class, 'index'])->name("profile.index")
     ->middleware('auth')
     ->where('user_id', '^\d+$');

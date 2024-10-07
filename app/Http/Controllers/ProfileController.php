@@ -28,11 +28,15 @@ class ProfileController extends Controller
         ->join('order_product_lists', 'products.product_id', '=', 'order_product_lists.product_id')
         ->join('orders', 'order_product_lists.order_id', '=', 'orders.order_id')
         ->join('seller_orders', 'orders.order_id', '=', 'seller_orders.order_id')
-        ->where('products.seller_user_id', $user_id)->where('orders.status', 'delivered')
-        ->select(DB::raw('SUM(products.price * order_product_lists.product_amount) as total_earnings'))
-        ->value('total_earnings');
+        ->where([['products.seller_user_id', $user_id], ['orders.status', 'delivered']]);
         if($earned)
+        {
+            $earned = $earned->select(DB::raw('SUM(products.price * order_product_lists.product_amount) as total_earnings'))
+                   ->value('total_earnings');
+                   
             $exinfo['earned'] = $earned; 
+        }
+        
         
         //rating
         $count = $user->saleProducts()->count();
@@ -71,11 +75,12 @@ class ProfileController extends Controller
             case 'stop_selling':
                 //check if he deleted all events/products
                 
+
                 if($user->saleProducts()->count() == 0 
-                && $user->sellerOrders()->where('status', 'in process')->count() == 0 
+                && (($user->sellerOrders() ? $user->sellerOrders()->where('status', 'in process')->count() : 0) == 0)
                 && $user->events()->count() == 0)       
                 {
-                    $user = User::where('user_id', $user_id)->roles()->where('role', 'seller')->detach();
+                    $user = $user->roles()->where('role', 'seller')->delete();
                 }          
                 else
                 {
