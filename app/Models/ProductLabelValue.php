@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class ProductLabelValue extends Model
 {
     use HasFactory;
@@ -15,7 +16,12 @@ class ProductLabelValue extends Model
     
     public function label()
     {
-        return $this->belongsTo(User::class, 'label_id', 'label_id');
+        return $this->belongsTo(Label::class, 'label_id', 'label_id');
+    }
+
+    public function labels()
+    {
+        return $this->hasMany(Label::class, 'label_id', 'label_id');
     }
 
     public function product()

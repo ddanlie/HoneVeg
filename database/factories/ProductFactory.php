@@ -37,13 +37,38 @@ class ProductFactory extends Factory
 
     public function configure()
     {
-        return $this->afterCreating(function (Product $product) {      
+        return $this->afterCreating(function (Product $product) {
+            
+            $category = Category::where('category_id', $product->category_id)->first();
+
+            
+            
             $matchingLabels = Label::where('category_id', $product->category_id)->get();      
             foreach ($matchingLabels as $label) {
                 ProductLabelValue::factory()->create([
                     'product_id' => $product->product_id,
                     'label_id' => $label->label_id,
                 ]);
+            }
+
+            while($category->category_id != 1) {
+                $category = Category::where('category_id', $category->parent_category_id)->first();
+                $matchingLabels = Label::where('category_id', $category->category_id)->get();      
+                foreach ($matchingLabels as $label) {
+                    if ($label->name == "price type") {
+                        ProductLabelValue::factory()->create([
+                            'product_id' => $product->product_id,
+                            'label_id' => $label->label_id,
+                            'label_value' => fake()->randomElement(['1 kg', 'piece', '100 g'])
+                        ]);
+                    }else {
+                        ProductLabelValue::factory()->create([
+                            'product_id' => $product->product_id,
+                            'label_id' => $label->label_id,
+                        ]);
+                    }
+
+                }
             }
 
         });

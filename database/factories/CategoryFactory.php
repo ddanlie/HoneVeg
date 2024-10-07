@@ -25,23 +25,31 @@ class CategoryFactory extends Factory
         
         return [
             'name'=>'category',
-            'parent_category_id'=> 0
+            'parent_category_id'=> 1
         ];
     }
 
     public function configure()
     {
         return $this->afterCreating(function (Category $category) {
-            if ($category->parent_category_id === 0) {
-                $category->parent_category_id = $category->category_id;
-                
+
+            if($category->name != 'base category') {
+                $category->name = 'category'.$category->category_id;
+                $category->save();
+
+                Label::factory(2)->create([
+                    'category_id' => $category->category_id,
+
+                ]);
+    
             }
-            $category->name = 'category'.$category->category_id;
-            $category->save();
-            
-            Label::factory()->create([
-                'category_id' => $category->category_id
-            ]);
+            else {
+                Label::factory()->create([
+                    'category_id' => $category->category_id,
+                    'name' => 'price type',
+                    'type' => 'text'
+                ]);
+            }
 
         });
     }

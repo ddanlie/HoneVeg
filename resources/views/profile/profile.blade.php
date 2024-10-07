@@ -36,8 +36,8 @@
                 </div>
             <div class="statusInfo">
                 <div>
-                    {{-- <h1>{{$userPageOwner->name}}</h1> --}}
-                    <h1>Status:</h1>
+                    <h1>{{$userPageOwner->name}}</h1>
+                    {{-- <h1>Status:</h1> --}}
                     <h2>User</h2> 
                     @php
                         $cans = ['be-admin' => 'Admin', 'be-moder' => 'Moder', 'be-seller' => 'Seller'];
@@ -75,7 +75,7 @@
         </div>
 
         <div class="userBaseRight">
-            <h1>Info</h1>
+            <h1 style="margin-bottom: 40%;">Info</h1>
             
             <div class="userInfo">
                 <hr></hr>

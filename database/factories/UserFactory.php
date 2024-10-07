@@ -68,7 +68,7 @@ class UserFactory extends Factory
         });
     }
 
-    public function createCategoryDesign($num) {
+    public function createCategoryDesign($num=1) {
         return $this->afterCreating(function (User $user) use ($num) {
             ChangeCategoriesDesign::factory($num)->create([
                 'creator_id' => $user->user_id

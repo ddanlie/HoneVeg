@@ -10,7 +10,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $items = 20;
-        $categories = Category::whereColumn('category_id', 'parent_category_id')->paginate($items);
+        $categories = Category::where('category_id', 1)->paginate($items);
         
         return view('categories', ['categories' => $categories]);
     }

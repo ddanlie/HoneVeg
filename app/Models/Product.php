@@ -19,6 +19,11 @@ class Product extends Model
         return $this->hasManyThrough(Label::class, ProductLabelValue::class, 'product_id', 'label_id', 'product_id', 'label_id');
     }
 
+    public function labelValues()
+    {
+        return $this->hasMany(ProductLabelValue::class, 'product_id', 'product_id');
+    }
+
     public function seller()
     {
         return $this->belongsTo(User::class, 'seller_user_id', 'user_id');

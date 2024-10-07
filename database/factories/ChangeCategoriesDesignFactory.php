@@ -29,7 +29,7 @@ class ChangeCategoriesDesignFactory extends Factory
             'creator_id' => User::factory()->withRole(),
             'parent_category_id' => Category::factory(),
             'name' => 'category',
-            'description' => fake()->words(),
+            'description' => fake()->text(),
             'creation_date' => now(),
             'close_date' => now(),
             'status' => fake()->randomElement(['created', 'modified', 'approved', 'declined'])

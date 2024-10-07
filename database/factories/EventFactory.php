@@ -25,7 +25,7 @@ class EventFactory extends Factory
             'end_date' => now(),
             'address' => fake()->address(),
             'name' => 'event',
-            'description' => fake()->words()
+            'description' => fake()->text()
         ];
     }
 }
