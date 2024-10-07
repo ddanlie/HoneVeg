@@ -35,7 +35,7 @@ class ProductPageController extends Controller
         $amountToOrder = intval($validated['put_to_order']);
         
         DB::transaction(function () use ($product, $amountToOrder) {
-            $order = Order::where([["status", "=", "cart"], ["customer_user_id", Auth::user()->user_id]]);
+            $order = Order::where([["status", "=", "cart"], ["customer_user_id", Auth::user()->user_id]])->first();
             if(!$order)
             {
                 $order = new Order();
@@ -44,16 +44,27 @@ class ProductPageController extends Controller
                 $order->status = "cart";
                 $order->save();
             }
-            $oplist = new OrderProductList();
-            $oplist->order_id =     $order->order_id;
-            $oplist->product_id = $product->product_id;
-            $oplist->product_amount = $amountToOrder;
+
+            $oplist = OrderProductList::where([["order_id", $order->order_id], ["product_id", $product->product_id]])->first();
+            if(!$oplist)
+            {
+                $oplist = new OrderProductList();
+                $oplist->order_id = $order->order_id;
+                $oplist->product_id = $product->product_id;
+                $oplist->product_amount = $amountToOrder;
+            }
+            else
+            {
+                $oplist->product_amount += $amountToOrder;
+            }
             $oplist->save();
-    
+
+
             $sellerOrder = new SellerOrders();
             $sellerOrder->order_id = $order->order_id;
-            $sellerOrder->seller_id = $product->seller_id;
-    
+            $sellerOrder->seller_id = $product->seller_user_id;
+            $sellerOrder->save();
+
             $product->available_amount -= $amountToOrder;
             $product->save();
         });
