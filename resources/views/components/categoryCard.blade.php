@@ -5,7 +5,7 @@ if(isset($isSubcat) && $isSubcat)
 else
     $size = [250, 300];
 @endphp
-<categoryCard class="categoryCard">
+<div class="categoryCard">
     <img width={{$size[0]}} height={{$size[1]}} src="{{asset('/images/categories/'.$category->category_id.'.jpg')}}" style="border-radius: 10%;">
     <h1>{{$category->name}}</h1>
-</categoryCard>
+</div>

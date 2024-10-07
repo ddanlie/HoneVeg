@@ -8,7 +8,7 @@
     <title>HoneVeg</title>
   </head>
   
-  <body>
+  <body style="z-index: 1;">
     <div>
       {{$slot}}
     </div>
