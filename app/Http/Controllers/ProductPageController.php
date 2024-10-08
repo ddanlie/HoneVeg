@@ -20,6 +20,11 @@ class ProductPageController extends Controller
     {
         $product = Product::where('product_id', $product_id)->first();
 
+        if(!$product)
+        {
+            return redirect()->route("categories.index");
+        }
+
         $labelValues = DB::table('products')
         ->where('products.product_id', '=', $product_id)
         ->join('product_label_values', 'products.product_id', '=', 'product_label_values.product_id')

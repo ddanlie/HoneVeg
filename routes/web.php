@@ -23,14 +23,14 @@ Route::get('/home', [HomeController::class, 'index'])->name("home.index");
 
 Route::get('/categories', [CategoriesController::class, 'index'])->name("categories.index");
 
-Route::get('/categories/{hierarchy}', [CategoriesController::class, 'show'])
-    ->where('hierarchy', '^[^\/]+(\/[^\/]+)*$')// hierarchy = a/suba/subsuba/subsubsuba
+Route::get('/categories/{category_id_hierarchy}', [CategoriesController::class, 'show'])
+    ->where('category_id_hierarchy', '^\d+(\/\d+)*$')
     ->name("categories.show");
 
 Route::get('/events', [EventsController::class, 'index'])->name("events.index")
     ->middleware('auth');
 
- Route::get('/events/{event_id}', [EventsController::class, 'show'])->name("events.show")
+ Route::get('/events/{event_id}', [EventsController::class, 'show'])->name("events.show")//TODO in controller - if not event with this id - redirect to home
     ->middleware('auth')
     ->where('event_id', '^\d+$');
 

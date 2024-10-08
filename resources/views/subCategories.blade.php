@@ -1,4 +1,4 @@
-@props(['hierarchy', 'subcategories', 'categoryProducts']) <!-- hierarchy is an ordered array where [0] is main category, [1] its subacegory [2] sub-subcategory ... -->
+@props(['categoryHierarchy', 'subcategories', 'categoryProducts']) <!-- hierarchy is an ordered array where [0] is main category, [1] its subacegory [2] sub-subcategory ... -->
 
 <x-default>
 
@@ -7,9 +7,9 @@
     <div class="subcategories">
         <div class="subcatsNavigation">
             @php $path = "/categories"; @endphp
-            @foreach ($hierarchy as $subcatName)
-                @php $path .= "/".$subcatName; @endphp
-                <a href="{{ url("$path") }}" ><h2>{{$subcatName}}</h2></a>
+            @foreach($categoryHierarchy as $cat)
+                @php $path .= "/".$cat->category_id; @endphp
+                <a href="{{ url($path) }}"><h2>{{$cat->name}}</h2></a>
                 @if (!$loop->last)
                     <img width=20 height=20 src="{{asset('/icons/subcatNavArrow.png')}}">
                 @endif
@@ -17,12 +17,9 @@
         </div>
         <div class="subcatsGeneral">
             <div class="subcatsPreview">
-                @if($subcategories)
-                    @foreach($subcategories as $subcat)
-                        @php $subpath = $path . '/' . $subcat->name @endphp
-                        <a href="{{ url($subpath) }}"><x-categoryCard :category="$subcat" :isSubcat="true"></x-categoryCard></a>
-                    @endforeach
-                @endif
+                @foreach($subcategories as $subcat)
+                    <a href="{{ url($path."/".$subcat->category_id) }}"><x-categoryCard :category="$subcat" :isSubcat="true"></x-categoryCard></a>
+                @endforeach
             </div>
         </div>
         <x-catalog :products="$categoryProducts"></x-catalog>

@@ -10,21 +10,51 @@ class CategoriesController extends Controller
     public function index()
     {
         $items = 20;
-        $categories = Category::where('category_id', 1)->paginate($items);
-        
+        $categories = Category::where('parent_category_id', 1);
+        if($categories)
+            $categories = $categories->whereColumn('parent_category_id', '!=', 'category_id')->paginate($items);
+        else
+            return redirect()->route("home.index");
+
         return view('categories', ['categories' => $categories]);
     }
 
 
-    public function show($nameHierarchy)
+    public function show($category_id_hierarchy)
     {
-        $nameHierarchy = explode('/', $nameHierarchy);
-        $mainCategory = Category::where('name', end($nameHierarchy))->first();
-        $subcategories = $mainCategory->subCategories()->where('category_id', '!=', $mainCategory->category_id)->get();
-        $products = $mainCategory->products()->paginate(HomeController::getCatalogPerPageAmount());
+        $ids = explode('/', $category_id_hierarchy);
+        $category = Category::where('category_id', end($ids))->first();
+        $bottomCategory = $category;
+
+        if(!$category)
+            return redirect()->route("categories.index");
+
+        //check parents
+        //array_unshift
+        $hierarchy = [];// hierarchy = 1/2/3/4/5
+        foreach(array_slice(array_reverse($ids), 1) as $id)
+        {
+            array_unshift($hierarchy, $bottomCategory);
+            if(!$bottomCategory->parent_category_id == $id)//if 4 is not parent of 5, if 3 is not parent of 4 ... 
+                return redirect()->route("categories.index");
+            $bottomCategory = Category::where('category_id', $bottomCategory->parent_category_id)->first();
+            if(!$bottomCategory)
+                return redirect()->route("categories.index");
+            
+        }
+        array_unshift($hierarchy, $bottomCategory);
+        //end
+
+        $subcategories = $category->subCategories()->whereColumn('parent_category_id', '!=', 'category_id')->get();
+        $products = $category->products()->paginate(HomeController::getCatalogPerPageAmount());//delete this later
+        //get all products from all children
+        //...
+        //end
+
+
 
         return view('subCategories', [
-            'hierarchy' => $nameHierarchy, 
+            'categoryHierarchy' => $hierarchy,
             'subcategories' => $subcategories, 
             'categoryProducts' => $products]);
     }

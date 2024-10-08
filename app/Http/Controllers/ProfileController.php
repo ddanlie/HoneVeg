@@ -14,6 +14,8 @@ class ProfileController extends Controller
     public function index($user_id)
     {
         $user = User::where('user_id', $user_id)->first();
+        if(!$user)
+            return redirect()->route("home.index");
 
         $exinfo = [
             'earned' => 0, 
