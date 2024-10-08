@@ -1,4 +1,4 @@
-@props(['creationCategory', 'product', 'labeHeap', 'create']) 
+@props(['creationCategory', 'product', 'labelHeap', 'create']) 
 
 <x-default>
     <x-header></x-header>   
@@ -25,7 +25,11 @@
         @else
             <h1>Product edit</h1>
         @endif
-        <form id="prodeditform" method="POST" action="{{url('/product/create-in/'.$creationCategory->category_id)}}"  enctype="multipart/form-data">
+        @if($create)
+            <form id="prodeditform" method="POST" action="{{url('/product/create-in/'.$creationCategory->category_id)}}"  enctype="multipart/form-data">
+        @else
+            <form id="prodeditform" method="POST" action="{{url('/product/'.$product->product_id.'/edit')}}"  enctype="multipart/form-data">    
+        @endif
             @csrf
             <label>
                 <h2>Product image</h2>
@@ -64,7 +68,7 @@
 
                 <h2>Categories data</h2>
                 @if($create)
-                    @foreach($labeHeap as $catLabels)
+                    @foreach($labelHeap as $catLabels)
                         @foreach($catLabels as $index => $label)
                         <label>
                             <h4>{{$label->name}}</h4>
@@ -82,16 +86,16 @@
                         @endforeach
                     @endforeach
                 @else
-                    @foreach($labeHeap as $prodLabel)
+                    @foreach($labelHeap as $prodLabel)
                     <label>
-                        <h4>{{$prodLabel->name}}</h4>
-                        <input type="hidden" name="lblids[]" value="{{$label->label_id}}">
-                        @switch($$prodLabel->type)
+                        <h4>{{$prodLabel->labels[0]->name}}</h4>
+                        <input type="hidden" name="lblids[]" value="{{$prodLabel->label_id}}">
+                        @switch($prodLabel->labels[0]->type)
                             @case("int")
-                                <textarea required type="number" min="0" name="cols[]" value="{{$prodLabel->label_value}}">
+                                <input required type="number" min="0" name="cols[]" value="{{$prodLabel->label_value}}">
                                 @break
                             @case("text")
-                                <textarea required type="text" maxlength=40 name="cols[]" value="{{$prodLabel->label_value}}">
+                                <input required type="text" maxlength=40 name="cols[]" value="{{$prodLabel->label_value}}">
                                 @break                    
                             @default                        
                             @endswitch

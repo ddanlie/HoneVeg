@@ -36,7 +36,6 @@ class ProductPageController extends Controller
         {
             $labelValues = $labelValues->pluck('label_value', 'labels.name')->toArray();
         }
-        // dd($labelValues);
         $mainLabelValues = [];
         $mainLabelValues['price type'] = $labelValues['price type'];
         unset($labelValues['price type']);
@@ -138,7 +137,7 @@ class ProductPageController extends Controller
             "create" => true,
             "creationCategory" => $category,
             "product" => null,
-            "labeHeap" => $labelHeap
+            "labelHeap" => $labelHeap
         ]);
     }
     
@@ -193,15 +192,16 @@ class ProductPageController extends Controller
     //edit get
     public function edit($product_id)
     {
-        $product = Product::where("product_id", $product_id)->get();
+        $product = Product::where("product_id", $product_id)->first();
         if(!$product)
             abort(404);
-        $pcat = Category::where('category_id', $product->category_id)->get();
+        $pcat = Category::where('category_id', $product->category_id)->first();
         if(!$pcat)
-            abort(404);
+            abort(500);
         $labelHeap = ProductLabelValue::where("product_id", $product_id)->with("labels")->get();
+
         if(!$labelHeap)
-            abort(404);
+            abort(500);
         if(!Gate::allows('sell-product', $product_id))
             abort(404);
 
@@ -209,21 +209,63 @@ class ProductPageController extends Controller
             "create" => false,
             "creationCategory" => $pcat,
             "product" => $product,
-            "labeHeap" => $labelHeap
+            "labelHeap" => $labelHeap
         ]);
     }   
 
     //edit post
     public function saveEditedProductData(Request $request, $product_id)
     {
-        $redirection = redirect()->route("product.createIn", ["product_id" => $product_id]);//call with errors later
-        $product = Category::where("category_id", $product_id);
+        $product = Product::where("product_id", $product_id)->first();
         if(!$product)
-            abort(404);
-
-        //add gates
+            abort(500);
         if(!Gate::allows('sell-product', $product_id) || !Gate::allows('be-seller'))
             abort(404);
+
+        $request->validate([
+            'pname' => ['required', 'max:64', 'min:2'],
+            'pdescr' => ['max:300'],
+            'pavail' => ['numeric', 'gte:0', 'lte:10000'],
+            'pprice' => ['numeric', 'gte:0', 'lte:10000'],
+            'image' => 'required|image|mimes:jpeg,jpg,png|dimensions:max_width=300,min_width=300,max_height=300,min_height=300',
+        ]);
+
+
+        $labelValues = $request->input("cols");
+        $labelIds = $request->input("lblids");
+
+        $ptypes = ['1 kg', '100 g', '1 piece']; 
+        if(!in_array($labelValues[0], $ptypes))
+            return redirect()->route("product.edit", ["product_id" => $product_id])->withErrors(['wrong price type' => 'Enter: "1 kg" "100 g" or "1 piece" '])->withInput();
+
+
+
+        DB::transaction(function () use ($request, $product, $labelIds, $labelValues) {
+            $product->name = $request->input('pname');
+            $product->price = (float)$request->input('pprice');
+            $product->description = $request->input('pdescr');
+            $product->available_amount = $request->input('pavail');
+            $product->save();
+
+            //we will find every id with this product and edit it
+            $plvals = ProductLabelValue::where('product_id', $product->product_id)->get();
+            if(!$plvals)
+                abort(500);
+            for($i = 0; $i < count($labelIds); $i++)
+            {  
+                dump($labelIds[$i]);
+                $plval = $plvals->where('label_id', $labelIds[$i])->first();
+                if(!$plval)
+                    abort(500);
+
+                $plval->label_value = $labelValues[$i];
+                $plval->save();
+            }
+            request()->image->move(public_path('images/products/'), $product->product_id.'.jpg');
+        });
+
+        return  redirect()->route("product.edit", ["product_id" => $product_id])->with(["message" => "Product succesfully edited"]);
+
     }
 
 }

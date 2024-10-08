@@ -37,15 +37,7 @@
                 @else
                     <img width=300 height=300 style="border-radius: 5%;">
                 @endif
-                {{-- @can('sell-product', $product->product_id)
-                    <form id="loadimgform" method="POST" action={{url('/profile/'.$userPageOwner->user_id)}} enctype="multipart/form-data">
-                        @csrf
-                        @method("PATCH")
-                        <input type="file" name="image">    
-                    </form>
-                    <h2 style="font-size:16px;">Image size: 300x300</h2>
-                    <x-defaultButton form="loadimgform" type="submit" name="edit_profile" value="change_avatar">Load image</x-defaultButton>    
-                @endcan    --}}
+
                 <h2>Available: {{$product->available_amount}}</h2>
                 <div class="amountButtons">
                     <a onclick="minusOne();"><x-defaultButton>–</x-defaultButton></a>
@@ -63,7 +55,12 @@
                 <h1>{{$product->name}}</h1>
                 <h2 style="margin: 10% 0 0 0">{{$product->price}} Kč</h2>
                 <h5 style="margin: 0 0 5% 0"> {{$product_exinfo["mainLabels"]["price type"]}}</h5>
+
+                @can('sell-product', $product->product_id)
+                    <a href="{{url('/product/'.$product->product_id.'/edit')}}"><x-defaultButton>Edit</x-defaultButton></a>
+                @endcan
             </div>
+
         </div>
 
         <div class="productBaseRight">
