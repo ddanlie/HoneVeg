@@ -15,14 +15,15 @@ class ProfileController extends Controller
     {
         $user = User::where('user_id', $user_id)->first();
         if(!$user)
-            return redirect()->route("home.index");
+            abort(404);
 
         $exinfo = [
             'earned' => 0, 
             'rating' => 0, 
             'ratedProducts' => [],
             'events' => [],
-            'orders' => []
+            'orders' => [],
+            'soldProds' => []
         ];
          
         //earned
@@ -36,7 +37,8 @@ class ProfileController extends Controller
             $earned = $earned->select(DB::raw('SUM(products.price * order_product_lists.product_amount) as total_earnings'))
                    ->value('total_earnings');
                    
-            $exinfo['earned'] = $earned; 
+            if($earned)
+                $exinfo['earned'] = $earned; 
         }
         
         
@@ -58,6 +60,10 @@ class ProfileController extends Controller
         if($events)
             $exinfo['events'] = $events;
 
+        $soldsProds = $user->saleProducts()->get();
+        if($soldsProds)
+            $exinfo['soldProds'] = $soldsProds;
+
         //orders
         $orders = $user->createdOrders()->get();
         if($orders)
@@ -78,16 +84,17 @@ class ProfileController extends Controller
                 //check if he deleted all events/products
                 
 
-                if($user->saleProducts()->count() == 0 
-                && (($user->sellerOrders() ? $user->sellerOrders()->where('status', 'in process')->count() : 0) == 0)
-                && $user->events()->count() == 0)       
+                if(false)
+                // if($user->saleProducts()->count() == 0 //change to count where amount available != 0
+                // && (($user->sellerOrders() ? $user->sellerOrders()->where('status', 'delivered')->count() : 0) == 0)
+                // && $user->events()->count() == 0 //change to count where status == )       
                 {
                     $user = $user->roles()->where('role', 'seller')->delete();
                 }          
                 else
                 {
                     return $redirection->withErrors([
-                            'edit_profile' => 'You have to delete active orders or existing products/events to stop selling'
+                            'edit_profile' => 'You cant stop selling'
                         ]);
                 }
                 break;

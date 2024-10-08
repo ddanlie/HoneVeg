@@ -1,7 +1,9 @@
 @props(['categoryHierarchy', 'subcategories', 'categoryProducts']) <!-- hierarchy is an ordered array where [0] is main category, [1] its subacegory [2] sub-subcategory ... -->
 
 <x-default>
-
+    @can('be-seller')
+        <x-sellerPanel :currentCategoryId="end($categoryHierarchy)->category_id"></x-sellerPanel>
+    @endcan
     <x-header></x-header>
 
     <div class="subcategories">
@@ -10,7 +12,7 @@
             @foreach($categoryHierarchy as $cat)
                 @php $path .= "/".$cat->category_id; @endphp
                 <a href="{{ url($path) }}"><h2>{{$cat->name}}</h2></a>
-                @if (!$loop->last)
+                @if(!$loop->last)
                     <img width=20 height=20 src="{{asset('/icons/subcatNavArrow.png')}}">
                 @endif
             @endforeach

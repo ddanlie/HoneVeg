@@ -27,7 +27,7 @@ class CategoriesController extends Controller
         $bottomCategory = $category;
 
         if(!$category)
-            return redirect()->route("categories.index");
+            abort(404);
 
         //check parents
         //array_unshift
@@ -36,10 +36,10 @@ class CategoriesController extends Controller
         {
             array_unshift($hierarchy, $bottomCategory);
             if(!$bottomCategory->parent_category_id == $id)//if 4 is not parent of 5, if 3 is not parent of 4 ... 
-                return redirect()->route("categories.index");
+                abort(404);
             $bottomCategory = Category::where('category_id', $bottomCategory->parent_category_id)->first();
             if(!$bottomCategory)
-                return redirect()->route("categories.index");
+                abort(404);
             
         }
         array_unshift($hierarchy, $bottomCategory);

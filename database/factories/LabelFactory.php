@@ -22,7 +22,7 @@ class LabelFactory extends Factory
         return [
             'category_id' => Category::factory(),
             'name' => fake()->word(),
-            'type' => fake()->randomElement(['int', 'text', 'float', 'date'])
+            'type' => fake()->randomElement(['int', 'text'])
         ];
     }
 }

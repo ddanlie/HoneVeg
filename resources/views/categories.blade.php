@@ -1,6 +1,6 @@
 @props(["categories"])
 <x-default>
-    <x-sellerPanel></x-sellerPanel>
+
     <x-header></x-header>
 
     <div class="catIndex">

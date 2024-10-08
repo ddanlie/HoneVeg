@@ -149,17 +149,37 @@
                 </a>
                 @endforeach
             </div>
-        @endcan <!-- be profile owner -->    
-        @can('be-seller')           
-            <div class="activity myActivity">
-                <h1 style="color:white;">Sales</h1>
-            </div>
-        @endcan
-        @canany(['be-seller' => [$userPageOwner->user_id], 'own-given-profile-id' => [$userPageOwner->user_id]])
+
+            @can('be-seller', $userPageOwner->user_id){{-- if page owner is a seller, he can watch this  --}}
+                <div class="activity myActivity">
+                    <h1 style="color:white;">Sales</h1>
+                    {{-- @foreach($user_exinfo['sales'] as $saleProd)
+                        <a href="{{url('/product/'.$saleProd->product_id)}}">
+                            <div class="activityItem">
+                                <h2>ord</h2>
+                                <h2>ord</h2>
+                            </div> 
+                        </a>
+                    @endforeach --}}
+                </div>
+            @endcan
+        @endcan <!-- be profile owner -->   
+        
+
+        {{-- any user can see what products this guy sells, of course if he is a seller --}}
+        @can('be-seller', $userPageOwner->user_id)
             <div class="activity myActivity">
                 <h1 style="color:white;">Sold products</h1>
+                @foreach($user_exinfo['soldProds'] as $saleProd)
+                    <a href="{{url('/product/'.$saleProd->product_id)}}">
+                        <div class="activityItem">
+                            <h2>{{$saleProd->name}}</h2>
+                            <h2>{{$saleProd->price}} Kč</h2>
+                        </div> 
+                    </a>
+                @endforeach
             </div>
-        @endcanany    
+        @endcan  
 
         @can('be-moder')   
             <div class="activity suggestedDesigns">
