@@ -22,4 +22,9 @@ class SellerOrders extends Model
     {
         return $this->belongsTo(User::class, 'seller_id', 'seller_id');
     }
+
+    public function orderProducts()
+    {   
+        return $this->belongsToMany(Product::class, "order_product_lists", "order_id", "product_id", "order_id", "product_id")->withPivot("product_amount");
+    }
 }

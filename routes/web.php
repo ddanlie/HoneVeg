@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductPageController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SignInController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrderController;
 /*
 | Web Routes
 |--------------------------------------------------------------------------
@@ -35,6 +36,20 @@ Route::get('/events', [EventsController::class, 'index'])->name("events.index")
 Route::get('/events/{event_id}', [EventsController::class, 'show'])->name("events.show")//TODO in controller - if not event with this id - redirect to home
     ->middleware('auth')
     ->where('event_id', '^\d+$');
+
+//orders
+Route::get('/order/{order_id}', [OrderController::class, 'index'])->name("order.index")
+    ->middleware('auth')
+    ->where('event_id', '^\d+$');
+
+Route::post('/order/{order_id}/create', [OrderController::class, 'create'])->name("order.create")
+    ->middleware('auth')
+    ->where('event_id', '^\d+$');
+
+Route::patch('/order/{order_id}/edit', [OrderController::class, 'edit'])->name("order.edit")
+    ->middleware('auth')
+    ->where('event_id', '^\d+$');
+
 
 //products
 Route::get('/product/{product_id}', [ProductPageController::class, 'index'])->name("product.index")

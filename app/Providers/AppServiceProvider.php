@@ -50,5 +50,11 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('sell-product', function (User $user, $product_id) {
             return $user->saleProducts()->where('product_id', $product_id)->exists();
         });
+        Gate::define('be-order-creator', function (User $user, $order_id) {
+            return $user->createdOrders()->where('order_id', $order_id)->exists();
+        });
+        Gate::define('be-order-participant', function (User $user, $order_id) {
+            return $user->sellerOrders()->where('seller_orders.order_id', $order_id)->exists();
+        });
     }
 }

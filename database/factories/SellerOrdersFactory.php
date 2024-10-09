@@ -24,7 +24,7 @@ class SellerOrdersFactory extends Factory
         return [
             'seller_id' => User::factory()->seller(),
             'order_id' => Order::factory(),
-            'status' => fake()->randomElements(['accepted', 'canceled', 'delivered'])
+            'status' => fake()->randomElement(['accepted', 'canceled', 'delivered'])
         ];
     
     }

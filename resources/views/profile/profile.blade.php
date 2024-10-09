@@ -119,7 +119,7 @@
             <div class="activity myActivity">
                 <h1 style="color:white;">Orders</h1>
                 @foreach($user_exinfo['orders'] as $order)
-                <a href="{{url('/orders/'.$order->order_id)}}">
+                <a href="{{url('/order/'.$order->order_id)}}">
                         @php 
                             $date = date_parse($order->creation_date);
                             $hrdate = $monthName = $date['day'].' '.date('M', mktime(0, 0, 0, $date['month'], 0)).' '.$date['hour'].':'.$date['minute'];
@@ -153,14 +153,53 @@
             @can('be-seller', $userPageOwner->user_id){{-- if page owner is a seller, he can watch this  --}}
                 <div class="activity myActivity">
                     <h1 style="color:white;">Sales</h1>
-                    {{-- @foreach($user_exinfo['sales'] as $saleProd)
-                        <a href="{{url('/product/'.$saleProd->product_id)}}">
-                            <div class="activityItem">
-                                <h2>ord</h2>
-                                <h2>ord</h2>
-                            </div> 
-                        </a>
-                    @endforeach --}}
+                    @foreach($user_exinfo['sellerOrds'] as $ord)
+                        <div class="activityItem">
+                            @php
+                                $total = 0 ;
+                                $s = ["canceled"=>"red", "accepted"=>"green"];
+                            @endphp
+                            <h2 style="margin: 0 0 7% 0; color:{{$s[$ord->status]}};">{{$ord->order->creation_date}}</h2>
+         
+                            @foreach($ord->orderProducts as $prod)
+                                @php 
+                                    $price = $prod->pivot->product_amount*$prod->price;
+                                    $total += $price 
+                                @endphp
+                                <div style="display:flex; flex-direction:column; border: 1px solid black; align-items:center; width:100%;">
+                                    <h2>{{$prod->name}} x{{$prod->pivot->product_amount}}</h2>
+                                    <h5>({{$price}})Kč</h5>
+                                </div>    
+                            @endforeach
+                            <h2 style="margin: 4% 0 4% 0;">Total: {{$total}}Kč</h2>
+                            <div>
+                                <form id="patchStatusForm" method="POST" action="{{url('/order/'.$ord->order_id.'/edit')}}">{{-- ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR--}}
+                                    @csrf
+                                    @method("PATCH")
+                                    <input id="patchInput" name="whatToDo" type="hidden">
+
+                                </form>
+                                <x-defaultButton onclick="acceptPatch()">Accept</x-defaultButton>
+                                <x-defaultButton onclick="cancelPatch()">Cancel</x-defaultButton>
+
+                                <script>
+                                    i = document.getElementById("patchInput");
+                                    f = document.getElementById("patchStatusForm");
+
+                                    function acceptPatch()
+                                    {
+                                        i.value = "accept";
+                                        f.submit();
+                                    }
+                                    function cancelPatch()
+                                    {
+                                        i.value = "cancel";
+                                        f.submit();
+                                    }
+                                </script>
+                            </div>
+                        </div> 
+                    @endforeach
                 </div>
             @endcan
         @endcan <!-- be profile owner -->   

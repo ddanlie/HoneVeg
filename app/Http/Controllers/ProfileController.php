@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrderProductList;
 use App\Models\Roles;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use App\Models\SellerOrders;
 
 class ProfileController extends Controller
 {
@@ -23,7 +25,8 @@ class ProfileController extends Controller
             'ratedProducts' => [],
             'events' => [],
             'orders' => [],
-            'soldProds' => []
+            'soldProds' => [],
+            'sellerOrds' => []
         ];
          
         //earned
@@ -49,7 +52,13 @@ class ProfileController extends Controller
             $ratingSum = $user->saleProducts()->select(DB::raw('SUM(products.total_rating) as rating_sum'))->value('rating_sum');
             $exinfo['rating'] = $ratingSum / $count;
         }
-        
+
+        //seller orders
+        $sellerOrds = SellerOrders::where("seller_id", $user_id)->with("orderProducts")->with("order")->get();
+
+        if($sellerOrds)
+            $exinfo['sellerOrds'] = $sellerOrds;
+
         //rated products
         $rated = $user->ratings()->join('products', 'ratings.product_id', '=', 'products.product_id')->get();
         if($rated)
@@ -60,9 +69,10 @@ class ProfileController extends Controller
         if($events)
             $exinfo['events'] = $events;
 
-        $soldsProds = $user->saleProducts()->get();
-        if($soldsProds)
-            $exinfo['soldProds'] = $soldsProds;
+        //seller products
+        $soldProds = $user->saleProducts()->get();
+        if($soldProds)
+            $exinfo['soldProds'] = $soldProds;
 
         //orders
         $orders = $user->createdOrders()->get();

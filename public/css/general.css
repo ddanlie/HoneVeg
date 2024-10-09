@@ -10,7 +10,7 @@
 @import url('product.css');
 @import url('sellerPanel.css');
 @import url('productManager.css');
-
+@import url('order.css');
 a 
 {
     text-decoration: none; 

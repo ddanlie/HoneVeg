@@ -17,10 +17,10 @@ return new class extends Migration
             $table->dateTime('creation_date');
             $table->dateTime('close_date')->nullable();
             $table->dateTime('delivery_date')->nullable();
-            $table->enum('status', ['cart', 'in process', 'cancelled', 'delivered'])->default('cart');
+            $table->enum('status', ['cart', 'in process', 'canceled', 'delivered'])->default('cart');
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */

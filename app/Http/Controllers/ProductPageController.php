@@ -15,6 +15,7 @@ use Database\Factories\ProductLabelValueFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Carbon;
 
 class ProductPageController extends Controller  
 {
@@ -78,7 +79,7 @@ class ProductPageController extends Controller
             {
                 $order = new Order();
                 $order->customer_user_id = Auth::user()->user_id;
-                $order->creation_date = now();
+                $order->creation_date = Carbon::now()->toDateTimeString();
                 $order->status = "cart";
                 $order->save();
             }
@@ -98,10 +99,10 @@ class ProductPageController extends Controller
             $oplist->save();
 
 
-            $sellerOrder = new SellerOrders();
-            $sellerOrder->order_id = $order->order_id;
-            $sellerOrder->seller_id = $product->seller_user_id;
-            $sellerOrder->save();
+            // $sellerOrder = new SellerOrders();
+            // $sellerOrder->order_id = $order->order_id;
+            // $sellerOrder->seller_id = $product->seller_user_id;
+            // $sellerOrder->save();
 
             $product->available_amount -= $amountToOrder;
             $product->save();

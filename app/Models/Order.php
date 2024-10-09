@@ -20,11 +20,11 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_product_lists', 'order_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'order_product_lists', 'order_id', 'product_id', 'order_id', 'product_id');
     }
     
     public function sellers()
     {
-        return $this->belongsToMany(User::class, 'seller_orders', 'order_id', 'user_id');
+        return $this->belongsToMany(User::class, 'seller_orders', 'order_id', 'seller_id', 'order_id', 'user_id');
     }
 }

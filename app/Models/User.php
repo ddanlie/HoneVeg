@@ -70,7 +70,7 @@ class User extends Authenticatable
 
     public function sellerOrders()
     {
-        $this->belongsToMany(Order::class, 'seller_orders', 'seller_id', 'order_id', 'user_id', 'order_id');
+        return $this->belongsToMany(Order::class, 'seller_orders', 'seller_id', 'order_id', 'user_id', 'order_id');
     }
 
     public function moderatedCategoryDesigns()
