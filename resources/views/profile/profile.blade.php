@@ -124,7 +124,7 @@
                             $date = date_parse($order->creation_date);
                             $hrdate = $monthName = $date['day'].' '.date('M', mktime(0, 0, 0, $date['month'], 0)).' '.$date['hour'].':'.$date['minute'];
 
-                            $states =  ['cart' => 'white', 'in process' => 'yellow', 'cancelled' => 'red', 'delivered' => 'green'];
+                            $states =  ['cart' => 'white', 'in process' => 'yellow', 'canceled' => 'red', 'delivered' => 'green'];
                             $color = $states[$order->status];
                             if(!$color)
                                 $color = "white";
@@ -173,26 +173,30 @@
                             @endforeach
                             <h2 style="margin: 4% 0 4% 0;">Total: {{$total}}Kč</h2>
                             <div>
-                                <form id="patchStatusForm" method="POST" action="{{url('/order/'.$ord->order_id.'/edit')}}">{{-- ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR--}}
+                                <form id="patchStatusForm{{$ord->order->order_id}}" method="POST" action="{{url('/order/'.$ord->order->order_id.'/edit')}}">{{-- ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR--}}
                                     @csrf
                                     @method("PATCH")
-                                    <input id="patchInput" name="whatToDo" type="hidden">
+                                    <input id="patchInput{{$ord->order->order_id}}" name="whatToDo" type="hidden">
 
                                 </form>
-                                <x-defaultButton onclick="acceptPatch()">Accept</x-defaultButton>
-                                <x-defaultButton onclick="cancelPatch()">Cancel</x-defaultButton>
+                                <x-defaultButton onclick="acceptPatch({{$ord->order->order_id}})">Accept</x-defaultButton>
+                                <x-defaultButton onclick="cancelPatch({{$ord->order->order_id}})">Cancel</x-defaultButton>
 
                                 <script>
                                     i = document.getElementById("patchInput");
-                                    f = document.getElementById("patchStatusForm");
 
-                                    function acceptPatch()
+
+                                    function acceptPatch(id)
                                     {
+                                        f = document.getElementById("patchStatusForm"+id);
+                                        i = document.getElementById("patchInput"+id);
                                         i.value = "accept";
                                         f.submit();
                                     }
-                                    function cancelPatch()
+                                    function cancelPatch(id)
                                     {
+                                        f = document.getElementById("patchStatusForm"+id);
+                                        i = document.getElementById("patchInput"+id);
                                         i.value = "cancel";
                                         f.submit();
                                     }

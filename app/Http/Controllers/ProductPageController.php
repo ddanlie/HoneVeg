@@ -98,12 +98,6 @@ class ProductPageController extends Controller
             }
             $oplist->save();
 
-
-            // $sellerOrder = new SellerOrders();
-            // $sellerOrder->order_id = $order->order_id;
-            // $sellerOrder->seller_id = $product->seller_user_id;
-            // $sellerOrder->save();
-
             $product->available_amount -= $amountToOrder;
             $product->save();
         });

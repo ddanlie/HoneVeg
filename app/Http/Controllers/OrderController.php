@@ -13,23 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index($order_id)
+    static public function refreshOrderStatus($order_id)
     {
-        if(Gate::denies("be-order-creator", $order_id))
-            abort(404);
-
         $order = Order::where('order_id', $order_id)->first();
         if(!$order)
-            abort(404);
-        
-        $productList = DB::table("orders")
-        ->join("order_product_lists", "orders.order_id", "=", "order_product_lists.order_id")
-        ->join("products", "products.product_id", "=", "order_product_lists.product_id")
-        ->where("order_product_lists.order_id", $order_id)->get();
-        if(!$productList)
             abort(500);
 
-        //define status
         $sellerOrders = DB::table("orders")
         ->join("seller_orders", "orders.order_id", "=", "seller_orders.order_id")
         ->where("seller_orders.order_id", $order_id);
@@ -61,6 +50,58 @@ class OrderController extends Controller
             }
             $order->save();
         }
+    }
+
+
+    public function index($order_id)
+    {
+        if(Gate::denies("be-order-creator", $order_id))
+            abort(404);
+
+        $order = Order::where('order_id', $order_id)->first();
+        if(!$order)
+            abort(404);
+        
+        $productList = DB::table("orders")
+        ->join("order_product_lists", "orders.order_id", "=", "order_product_lists.order_id")
+        ->join("products", "products.product_id", "=", "order_product_lists.product_id")
+        ->where("order_product_lists.order_id", $order_id)->get();
+        if(!$productList)
+            abort(500);
+
+        $this->refreshOrderStatus($order_id);
+        //define status
+        // $sellerOrders = DB::table("orders")
+        // ->join("seller_orders", "orders.order_id", "=", "seller_orders.order_id")
+        // ->where("seller_orders.order_id", $order_id);
+        // if(!$sellerOrders)
+        //     abort(500);
+
+        // $statuses = $sellerOrders->select("status")->select("seller_orders.status as sell_status")->pluck('sell_status')->toArray();
+        
+        // if($order->status != "cart")
+        // {
+        //     $uniq = array_unique($statuses);
+        //     if(count($uniq) === 1 && $uniq[0] == "canceled")//canceled - all sellers orders canceled
+        //         $status = "canceled";
+        //     elseif(in_array("accepted", $uniq) || count($uniq) == 0)
+        //         $status = "in process";
+        //     else //delivered - all non canceled are delivered (there is no accepted)
+        //         $status = "delivered";
+    
+        //     $order->status = $status;
+        //     switch ($status) {
+        //         case "canceled":
+        //             $order->close_date = Carbon::now()->toDateTimeString(); 
+        //             break;
+        //         case "delivered":
+        //             $order->delivery_date = Carbon::now()->toDateTimeString();
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        //     $order->save();
+        // }
  
 
         return view("orderPage", [
@@ -106,11 +147,11 @@ class OrderController extends Controller
         if(Gate::denies("be-order-participant", $order_id))
             abort(500);
     
-        $order = SellerOrders::where("order_id", $order_id)->get();
-        if(!$order)
+        $orders = SellerOrders::where("order_id", $order_id)->get();
+        if(!$orders)
             abort(500);
 
-        foreach($order as $ord)
+        foreach($orders as $ord)
         {
             switch ($request->input("whatToDo")) {
                 case "accept":

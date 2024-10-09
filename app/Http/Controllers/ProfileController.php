@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\Models\SellerOrders;
+use App\Http\Controllers\OrderController;
 
 class ProfileController extends Controller
 {
@@ -77,7 +78,12 @@ class ProfileController extends Controller
         //orders
         $orders = $user->createdOrders()->get();
         if($orders)
+        {
+            foreach($orders as $ord)
+                OrderController::refreshOrderStatus($ord->order_id);
+            $orders = $user->createdOrders()->get();
             $exinfo['orders'] = $orders;
+        }
 
         return view('profile.profile', [
             'userPageOwner' => $user,
