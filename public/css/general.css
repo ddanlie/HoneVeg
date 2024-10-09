@@ -8,8 +8,9 @@
 @import url('categories.css');
 @import url('subcategories.css');
 @import url('product.css');
-@import url('sellerPanel.css');
+@import url('subcatsPanel.css');
 @import url('productManager.css');
+@import url('designManager.css');
 @import url('order.css');
 a 
 {

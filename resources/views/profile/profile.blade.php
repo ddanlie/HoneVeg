@@ -3,13 +3,20 @@
 <x-default>
     <x-header></x-header>
     <div class="profileErrMsg">
-        @php $style = "font-size: 16px; color:red; text-align:center;" @endphp
-        @if(!$errors->any())
-            <h2 style="{{$style}}  visibility:hidden;">fantom error message</h2>
+        @php 
+            $style1 = "font-size: 16px; color:red; text-align:center;";
+            $style2 = "font-size: 16px; color:green; text-align:center;";
+        @endphp
+        @if(!$errors->any() && !session()->has('message'))
+            <h2 style="{{$style1}}  visibility:hidden;">fantom error message</h2>
         @else
             @foreach($errors->all() as $message)
-                <h2 style="{{$style}}">{{$message}}</h2>    
+                <h2 style="{{$style1}}">{{$message}}</h2>     
             @endforeach
+
+            @if(session()->has('message'))
+                <h2 style="{{$style2}}">{{session('message')}}</h2>
+            @endif
         @endif
     </div>
     <div class="userBase">
@@ -20,9 +27,9 @@
                         $checkPath = public_path($avatarPath) 
                     @endphp
                     @if(file_exists($checkPath))
-                        <img width=350 height=500 src="{{asset($avatarPath)}}" style="border-radius: 5%;">
+                        <img width=350 height=500 src="{{asset($avatarPath)}}" style="border-radius: 5%;"/>
                     @else
-                        <img width=350 height=500 src="{{asset('/images/default/defaultAvatar.jpg')}}" style="border-radius: 5%;">
+                        <img width=350 height=500 src="{{asset('/images/default/defaultAvatar.jpg')}}" style="border-radius: 5%;"/>
                     @endif
                     @can('own-given-profile-id', $userPageOwner->user_id)
                         <form id="loadimgform" method="POST" action={{url('/profile/'.$userPageOwner->user_id)}} enctype="multipart/form-data">
@@ -124,7 +131,7 @@
                             $date = date_parse($order->creation_date);
                             $hrdate = $monthName = $date['day'].' '.date('M', mktime(0, 0, 0, $date['month'], 0)).' '.$date['hour'].':'.$date['minute'];
 
-                            $states =  ['cart' => 'white', 'in process' => 'yellow', 'canceled' => 'red', 'delivered' => 'green'];
+                            $states =  ['cart' => 'white', 'in process' => '#e0bc00', 'canceled' => 'red', 'delivered' => 'green'];
                             $color = $states[$order->status];
                             if(!$color)
                                 $color = "white";
@@ -138,17 +145,6 @@
                 @endforeach
             </div>
 
-            <div class="activity myActivity">
-                <h1 style="color:white;">Designs:TODO</h1>
-                @foreach($user_exinfo['orders'] as $order)
-                <a href="{{url('/orders/'.$order->order_id)}}">
-                    <div class="activityItem">
-                        <h2>d1</h2>
-                        <h2>d2</h2>
-                    </div> 
-                </a>
-                @endforeach
-            </div>
 
             @can('be-seller', $userPageOwner->user_id){{-- if page owner is a seller, he can watch this  --}}
                 <div class="activity myActivity">
@@ -224,11 +220,20 @@
             </div>
         @endcan  
 
-        @can('be-moder')   
-            <div class="activity suggestedDesigns">
-
-            </div> 
-        @endcan     
+        @if(Gate::allows('be-moder') || Gate::allows('own-given-profile-id', $userPageOwner->user_id))   
+            <div class="activity myActivity">
+                <h1 style="color:white;">Designs</h1>
+                @foreach($user_exinfo['authorDesigns'] as $design)
+                <a href="{{url('/design/'.$design->design_id)}}">
+                    <div class="activityItem">
+                        <h2>{{$design->name}}</h2>
+                        <h2 style="visibility: hidden">Long fantom text for word wrap</h2>
+                        <h5>{{$design->description}}</h5>
+                    </div> 
+                </a>
+                @endforeach
+            </div>
+        @endif    
 
         @can('be-admin') 
             <div class="activity moders">
@@ -298,7 +303,23 @@
         };
 
             document.querySelectorAll(".userActivities").forEach(pointerXScroll);
+            
         </script>
+
+        <script>
+            let sidebar = document.querySelector(".sidebar");
+
+// Retrieve the stored scroll position from localStorage
+let storedScrollPosition = localStorage.getItem("sidebarScroll");
+// If a stored scroll position exists, scroll the sidebar to that position
+if (storedScrollPosition !== null) {
+  sidebar.scrollTop = Number(storedScrollPosition);
+}
+// Store the scroll position in localStorage before the page is unloaded
+window.addEventListener("beforeunload", () => {
+  localStorage.setItem("sidebarScroll", sidebar.scrollTop);
+});
+            </script>
     </div>
 
 </x-default>

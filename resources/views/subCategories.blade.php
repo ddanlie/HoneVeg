@@ -1,9 +1,9 @@
 @props(['categoryHierarchy', 'subcategories', 'categoryProducts']) <!-- hierarchy is an ordered array where [0] is main category, [1] its subacegory [2] sub-subcategory ... -->
 
 <x-default>
-    @can('be-seller')
-        <x-sellerPanel :currentCategoryId="end($categoryHierarchy)->category_id"></x-sellerPanel>
-    @endcan
+
+        <x-subcatsPanel :currentCategoryId="end($categoryHierarchy)->category_id"></x-subcatsPanel>
+
     <x-header></x-header>
 
     <div class="subcategories">

@@ -69,39 +69,11 @@ class OrderController extends Controller
         if(!$productList)
             abort(500);
 
-        $this->refreshOrderStatus($order_id);
-        //define status
-        // $sellerOrders = DB::table("orders")
-        // ->join("seller_orders", "orders.order_id", "=", "seller_orders.order_id")
-        // ->where("seller_orders.order_id", $order_id);
-        // if(!$sellerOrders)
-        //     abort(500);
 
-        // $statuses = $sellerOrders->select("status")->select("seller_orders.status as sell_status")->pluck('sell_status')->toArray();
-        
-        // if($order->status != "cart")
-        // {
-        //     $uniq = array_unique($statuses);
-        //     if(count($uniq) === 1 && $uniq[0] == "canceled")//canceled - all sellers orders canceled
-        //         $status = "canceled";
-        //     elseif(in_array("accepted", $uniq) || count($uniq) == 0)
-        //         $status = "in process";
-        //     else //delivered - all non canceled are delivered (there is no accepted)
-        //         $status = "delivered";
-    
-        //     $order->status = $status;
-        //     switch ($status) {
-        //         case "canceled":
-        //             $order->close_date = Carbon::now()->toDateTimeString(); 
-        //             break;
-        //         case "delivered":
-        //             $order->delivery_date = Carbon::now()->toDateTimeString();
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        //     $order->save();
-        // }
+        //define status    
+        $this->refreshOrderStatus($order_id);
+       
+
  
 
         return view("orderPage", [
@@ -166,6 +138,26 @@ class OrderController extends Controller
             }
             $ord->save();
         }
+
+        return redirect()->route("profile.index", ["user_id"=>Auth::user()->user_id]);
+    }
+
+    public function delete(Request $request, $order_id)
+    {
+        if(Gate::denies("be-order-creator", $order_id))
+            abort(500);
+        
+        $order = Order::where("order_id", $order_id)->first();
+        if(!$order)
+            abort(500);
+        if($order->status != "cart")
+            abort(404);
+
+        $order->delete();
+
+        $plist = OrderProductList::where("order_id", $order_id); 
+        $plist->delete();
+
 
         return redirect()->route("profile.index", ["user_id"=>Auth::user()->user_id]);
     }

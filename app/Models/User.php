@@ -78,7 +78,7 @@ class User extends Authenticatable
         return $this->hasMany(ChangeCategoriesDesign::class, 'moderator_id', 'user_id');
     }
 
-    public function createdCatergoryDesigns()
+    public function createdCategoryDesigns()
     {
         return $this->hasMany(ChangeCategoriesDesign::class, 'creator_id', 'user_id');
     }

@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('design_labels', function (Blueprint $table) {
-            $table->id('design_label_id')->references('design_label_id')->on('change_categories_design_labels');
+            $table->id('design_label_id');
             $table->unsignedBigInteger('design_id')->references('design_id')->on('change_categories_designs');
             $table->string('name');
-            $table->enum('type', ['int', 'text', 'float', 'date'])->default('text');
+            $table->enum('type', ['int', 'text'])->default('text');
         });
     }
 

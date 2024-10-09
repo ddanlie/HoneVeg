@@ -65,7 +65,7 @@ class ProductPageController extends Controller
         
         if($product->available_amount <= 0)
         {
-            return $redirection->with('message', 'This product is not for delivery, check events with this product below');
+            return $redirection->with('message', 'This product is not available, check events with this product below');
         }
     
         $validated = $request->validate([
@@ -146,7 +146,7 @@ class ProductPageController extends Controller
             'pdescr' => ['max:300'],
             'pavail' => ['numeric', 'gte:0', 'lte:10000'],
             'pprice' => ['numeric', 'gte:0', 'lte:10000'],
-            'image' => 'required|image|mimes:jpeg,jpg,png|dimensions:max_width=300,min_width=300,max_height=300,min_height=300',
+            'image' => 'image|mimes:jpeg,jpg,png|dimensions:max_width=1440,min_width=100,max_height=2560,min_height=100',
          ]);
         
         $labelValues = $request->input("cols");
@@ -178,7 +178,8 @@ class ProductPageController extends Controller
                 $lval->save();
             }
 
-            request()->image->move(public_path('images/products/'), $product->product_id.'.jpg');
+            if(request()->image)
+                request()->image->move(public_path('images/products/'), $product->product_id.'.jpg');
         });
 
         return  redirect()->route("product.createIn", ["category_id" => $category_id])->with(["message" => "Product succesfully created"]);
@@ -222,7 +223,7 @@ class ProductPageController extends Controller
             'pdescr' => ['max:300'],
             'pavail' => ['numeric', 'gte:0', 'lte:10000'],
             'pprice' => ['numeric', 'gte:0', 'lte:10000'],
-            'image' => 'required|image|mimes:jpeg,jpg,png|dimensions:max_width=300,min_width=300,max_height=300,min_height=300',
+            'image' => 'image|mimes:jpeg,jpg,png|dimensions:max_width=300,min_width=300,max_height=300,min_height=300',
         ]);
 
 
@@ -256,7 +257,8 @@ class ProductPageController extends Controller
                 $plval->label_value = $labelValues[$i];
                 $plval->save();
             }
-            request()->image->move(public_path('images/products/'), $product->product_id.'.jpg');
+            if(request()->image)
+                request()->image->move(public_path('images/products/'), $product->product_id.'.jpg');
         });
 
         return  redirect()->route("product.edit", ["product_id" => $product_id])->with(["message" => "Product succesfully edited"]);

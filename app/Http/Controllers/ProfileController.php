@@ -11,6 +11,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\Models\SellerOrders;
 use App\Http\Controllers\OrderController;
+use App\Models\ChangeCategoriesDesign;
 
 class ProfileController extends Controller
 {
@@ -27,7 +28,8 @@ class ProfileController extends Controller
             'events' => [],
             'orders' => [],
             'soldProds' => [],
-            'sellerOrds' => []
+            'sellerOrds' => [],
+            'authorDesigns' => []
         ];
          
         //earned
@@ -85,6 +87,12 @@ class ProfileController extends Controller
             $exinfo['orders'] = $orders;
         }
 
+        //autor designs
+        $authorDesigns = ChangeCategoriesDesign::where("creator_id", $user_id)->get();
+        if($authorDesigns)
+            $exinfo['authorDesigns'] = $authorDesigns;
+
+
         return view('profile.profile', [
             'userPageOwner' => $user,
             'user_exinfo' => $exinfo
@@ -116,8 +124,8 @@ class ProfileController extends Controller
                 break;
             case 'start_selling':
                 if($user->roles->contains('role', 'seller'))
-                    return $redirection->withErrors([
-                        'edit_profile' => 'You are already selling'
+                    return $redirection->with([
+                        'message' => 'You are already selling'
                     ]);
                 if(file_exists(public_path('/images/users/'.$user_id.'.jpg')))
                 {
@@ -134,15 +142,15 @@ class ProfileController extends Controller
                 }
                 break;
             case 'change_avatar':
-                
+                 
                 $request->validate([
-                    'image' => 'required|image|mimes:jpeg,jpg,png|dimensions:max_width=350,min_width=350,max_height=500,min_height=500,',
+                    'image' => 'required|image|mimes:jpeg,jpg,png|dimensions:max_width=1440,min_width=100,max_height=2560,min_height=200',
                 ]);
                 request()->image->move(public_path('images/users/'), $user_id.'.jpg');  
 
                 break;
         }
-        return $redirection;
+        return $redirection->with(["message" => "edited"]);
     }
     
 }

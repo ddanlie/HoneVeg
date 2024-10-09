@@ -28,7 +28,7 @@ class OrderFactory extends Factory
             'creation_date' => now(),
             'close_date' => now(),
             'delivery_date' => now(),
-            'status' => fake()->randomElement(['cart', 'in process', 'cancelled', 'delivered'])
+            'status' => fake()->randomElement(['cart', 'in process', 'canceled', 'delivered'])
         ];
     }
 

@@ -8,8 +8,9 @@
     z-index: 2;
     justify-content: space-between;
     height: 15%;
+    gap: 50px;
     width: 10%;
-    margin: 20% 0 0 -12%;
+    margin: 15% 0 0 -12%;
     word-wrap: break-word;
 }
 

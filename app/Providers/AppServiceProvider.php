@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
             $who = $user;
             if($user_id)
                 $who = User::where('user_id', $user_id)->first();
-            return $who->roles->contains('role', 'moder') || $user->roles->contains('role', 'admin');
+            return $who->roles->contains('role', 'moderator') || $user->roles->contains('role', 'admin');
         });
         Gate::define('own-given-profile-id', function (User $user, $profile_id) {
             return $user->user_id === $profile_id;
@@ -55,6 +55,9 @@ class AppServiceProvider extends ServiceProvider
         });
         Gate::define('be-order-participant', function (User $user, $order_id) {
             return $user->sellerOrders()->where('seller_orders.order_id', $order_id)->exists();
+        });
+        Gate::define('be-design-author', function (User $user, $design_id) {
+            return $user->createdCategoryDesigns()->where('design_id', $design_id)->exists();
         });
     }
 }

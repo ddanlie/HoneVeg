@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DesignController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ProductPageController;
 use App\Http\Controllers\RegistrationController;
@@ -50,6 +51,11 @@ Route::patch('/order/{order_id}/edit', [OrderController::class, 'edit'])->name("
     ->middleware('auth')
     ->where('event_id', '^\d+$');
 
+Route::post('/order/{order_id}/delete', [OrderController::class, 'delete'])->name("order.delete")
+    ->middleware('auth')
+    ->where('event_id', '^\d+$');
+
+
 
 //products
 Route::get('/product/{product_id}', [ProductPageController::class, 'index'])->name("product.index")
@@ -74,6 +80,34 @@ Route::get('/product/create-in/{category_id}', [ProductPageController::class, 'c
 Route::post('/product/create-in/{category_id}', [ProductPageController::class, 'createProductData'])->name("product.createProductData")//routes to MANAGER page
     ->middleware('auth')
     ->where('category_id', '^\d+$');
+
+//designs
+Route::get('/design/{design_id}', [DesignController::class, 'index'])->name("design.index")
+    ->middleware('auth')
+    ->where('design_id', '^\d+$');
+
+
+Route::get('/design/create-in/{category_id}', [DesignController::class, 'createIn'])->name("design.createIn")
+    ->middleware('auth')
+    ->where('category_id', '^\d+$');
+
+
+Route::post('/design/create-in/{category_id}', [DesignController::class, 'createDesign'])->name("design.createDesign")
+    ->middleware('auth')
+    ->where('category_id', '^\d+$');
+
+Route::post('/design/{design_id}/decline', [DesignController::class, 'declineDesign'])->name("design.acceptDesign")
+    ->middleware('auth')
+    ->where('design_id', '^\d+$');
+
+Route::post('/design/{design_id}/accept', [DesignController::class, 'acceptDesign'])->name("design.declineDesign")
+    ->middleware('auth')
+    ->where('design_id', '^\d+$');
+
+    
+Route::patch('/design/{design_id}', [DesignController::class, 'delete'])->name("design.delete")
+    ->middleware('auth')
+    ->where('design_id', '^\d+$');
 
 //user
 Route::get('/profile/{user_id}', [ProfileController::class, 'index'])->name("profile.index")

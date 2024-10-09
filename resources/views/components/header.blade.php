@@ -1,5 +1,5 @@
 <nav class="headerStyle" id="headView">
-    <h1 class="logo">HoneVeg</h1>
+    <a href="{{url('/home')}}"><h1 class="logo">HoneVeg</h1></a>
     
     <div class="navButtons">
         @php

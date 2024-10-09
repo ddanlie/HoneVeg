@@ -68,7 +68,7 @@
             
             <div class="productInfo">
                 <a href="#"><span style="display: flex; justify-content: space-between;"><h2>Category</h2><h2>{{$product_exinfo['categoryName']}}</h2></span></a>
-                <a href="{{url('/profile/'.$product->seller_user_id)}}"><span style="display: flex; justify-content: space-between;"><h2>Seller</h2><h2>{{$product_exinfo['seller']}}</h2></span></a>
+                <span style="display: flex; justify-content: space-between;"><h2>Seller</h2><a  style="text-decoration: underline;"  href="{{url('/profile/'.$product->seller_user_id)}}"><h2>{{$product_exinfo['seller']}}</h2></span></a>
                 <span style="display: flex; justify-content: space-between;"><h2>Rating</h2><h2>{{$product->total_rating}}</h2></span>
                 <br><br>
                 <h2>{{$product->description}}</h2>
