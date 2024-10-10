@@ -72,12 +72,22 @@
                 <form id="editForm" method="POST" action={{url('/profile/'.$userPageOwner->user_id)}}>
                     @csrf
                     @method("PATCH")
-                </form>
+                </form> 
+                {{-- guy changing his role --}}
                 @can('own-given-profile-id', $userPageOwner->user_id)
                     @can('be-seller')
                         <x-defaultButton form="editForm" type="submit" name="edit_profile" value="stop_selling">Stop selling</x-defaultButton>
                     @else
                         <x-defaultButton form="editForm" type="submit" name="edit_profile" value="start_selling">Start selling</x-defaultButton>
+                    @endcan
+                @endcan
+
+                {{-- admin changing guy's role --}}
+                @can("be-admin")
+                    @can("be-moder", $userPageOwner->user_id)
+                        <x-defaultButton form="editForm" type="submit" name="edit_profile" value="revoke_moder">Revoke moder</x-defaultButton>
+                    @else    
+                        <x-defaultButton form="editForm" type="submit" name="edit_profile" value="make_moder">Make moder</x-defaultButton>
                     @endcan
                 @endcan
             
@@ -233,7 +243,7 @@
                 <a href="{{url('/design/'.$design->design_id)}}">
                     <div class="activityItem">
                         <h2>{{$design->name}}</h2>
-                        <h2 style="visibility: hidden">Long fantom text for word wrap</h2>
+                        <h2 style="visibility: hidden">Long fantom text for text wrap</h2>
                         <h5>{{$design->description}}</h5>
                     </div> 
                 </a>
@@ -242,8 +252,15 @@
         @endif    
 
         @can('be-admin') 
-            <div class="activity moders">
-
+            <div class="activity myActivity">
+                <h1 style="color:white;">Moders</h1>
+                @foreach($user_exinfo['moders'] as $role)
+                <a href="{{url('/profile/'.$role->user->user_id)}}">
+                    <div class="activityItem">
+                        <h2>{{$role->user->name}}</h2>
+                    </div> 
+                </a>
+                @endforeach
             </div>
         @endcan
         <div class="activity myActivity" style="visibility: hidden;"></div>

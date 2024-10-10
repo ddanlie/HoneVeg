@@ -36,13 +36,13 @@ class AppServiceProvider extends ServiceProvider
             $who = $user;
             if($user_id)
                 $who = User::where('user_id', $user_id)->first();
-            return $who->roles->contains('role', 'seller') || $user->roles->contains('role', 'admin');
+            return $who->roles->contains('role', 'seller');
         });
         Gate::define('be-moder', function (User $user, $user_id=null) {
             $who = $user;
             if($user_id)
                 $who = User::where('user_id', $user_id)->first();
-            return $who->roles->contains('role', 'moderator') || $user->roles->contains('role', 'admin');
+            return $who->roles->contains('role', 'moderator');
         });
         Gate::define('own-given-profile-id', function (User $user, $profile_id) {
             return $user->user_id === $profile_id;

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\SellerOrders;
 use App\Http\Controllers\OrderController;
 use App\Models\ChangeCategoriesDesign;
+use Illuminate\Support\Facades\Gate;
 
 class ProfileController extends Controller
 {
@@ -29,7 +30,8 @@ class ProfileController extends Controller
             'orders' => [],
             'soldProds' => [],
             'sellerOrds' => [],
-            'authorDesigns' => []
+            'authorDesigns' => [],
+            'moders' => []
         ];
          
         //earned
@@ -93,6 +95,11 @@ class ProfileController extends Controller
             $exinfo['authorDesigns'] = $authorDesigns;
 
 
+        //moders
+        $moders = Roles::where("role", "moderator")->with("user")->get();//$exinfo['moders'][0]->user
+        if($moders)
+            $exinfo['moders'] = $moders;
+
         return view('profile.profile', [
             'userPageOwner' => $user,
             'user_exinfo' => $exinfo
@@ -106,7 +113,12 @@ class ProfileController extends Controller
         switch ($request->input('edit_profile')) {
             case 'stop_selling':
                 //check if he deleted all events/products
-                
+                if(Gate::denies('be-seller'))
+                {
+                    return $redirection->withErrors([
+                        'edit_profile' => 'You are not seller'
+                    ]);
+                }
 
                 if(false)
                 // if($user->saleProducts()->count() == 0 //change to count where amount available != 0
@@ -123,10 +135,12 @@ class ProfileController extends Controller
                 }
                 break;
             case 'start_selling':
-                if($user->roles->contains('role', 'seller'))
+                if(Gate::allows('be-seller'))
+                {
                     return $redirection->with([
                         'message' => 'You are already selling'
                     ]);
+                }
                 if(file_exists(public_path('/images/users/'.$user_id.'.jpg')))
                 {
                     $roles = new Roles;
@@ -149,7 +163,38 @@ class ProfileController extends Controller
                 request()->image->move(public_path('images/users/'), $user_id.'.jpg');  
 
                 break;
-        }
+
+            case 'make_moder':
+                if(Gate::denies("be-admin"))
+                {
+                    return $redirection->withErrors([
+                        'edit_profile' => 'You dont have privileges to do this'
+                    ]);
+                }
+
+                $roles = new Roles;
+                $roles->user_id = $user_id;
+                $roles->role = 'moderator';
+                $roles->save();
+
+                break;
+
+            case 'revoke_moder':
+                if(Gate::denies("be-admin"))
+                {
+                    return $redirection->withErrors([
+                        'edit_profile' => 'You dont have privileges to do this'
+                    ]);
+                }
+
+                $role = Roles::where([["user_id", $user_id], ["role", "moderator"]])->first();
+                if(!$role)
+                    abort(500);
+
+                $role->delete();
+
+                break;
+            }
         return $redirection->with(["message" => "edited"]);
     }
     

@@ -32,7 +32,7 @@ class ChangeCategoriesDesignFactory extends Factory
             'description' => fake()->text(),
             'creation_date' => now(),
             'close_date' => now(),
-            'status' => fake()->randomElement(['created', 'modified', 'approved', 'declined'])
+            'status' => fake()->randomElement(['created', 'approved', 'declined'])
         ];
     }
 
