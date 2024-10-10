@@ -10,23 +10,18 @@
                 <a href="{{ url('/product/'.$product->product_id) }}" style="text-decoration: none; color:inherit;"><x-productCard :product="$product"></x-productCard></a>    
             @endforeach 
         </div>
-        {{-- <hr style="border-top:1px grey solid; " width="90%"> --}}
         <div class="pagination" style="margin-bottom: 5%;">
             {{$products->links()}}
         </div>
     </main>
 
     <script>
-        // Save scroll position in sessionStorage
         window.addEventListener('beforeunload', function() {
             sessionStorage.setItem('scrollPosition', window.scrollY);
         });
-    
-        // Restore scroll position after page load
         window.addEventListener('load', function() {
-            if (sessionStorage.getItem('scrollPosition') !== null) {
+            if (sessionStorage.getItem('scrollPosition') !== null)
                 window.scrollTo(0, parseInt(sessionStorage.getItem('scrollPosition')));
-            }
         });
     </script>
     

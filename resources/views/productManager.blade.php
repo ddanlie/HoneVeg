@@ -49,8 +49,12 @@
 
             <label>
                 <h2>Description</h2>
-                <textarea maxlength=300 name="pdescr" rows="20" cols="50" value="{{$create ? old('pdescr') : $product->description}}">
-                </textarea>
+                <textarea id="productDescr" maxlength=300 name="pdescr" style="width: 300px; height: 200px;">{{$create ? old('pdescr') : $product->description}}</textarea>
+                <script>
+                    const textarea = document.getElementById("productDescr");
+                    textarea.focus();
+                    textarea.setSelectionRange(0, 0);
+                </script>
             </label>
 
             <label>
@@ -68,17 +72,19 @@
 
                 <h2>Categories data</h2>
                 @if($create)
+                    @php $index = -1 @endphp
                     @foreach($labelHeap as $catLabels)
-                        @foreach($catLabels as $index => $label)
+                        @foreach($catLabels as $label)
+                        @php $index += 1 @endphp
                         <label>
                             <h4>{{$label->name}}</h4>
                             <input type="hidden" name="lblids[]" value="{{$label->label_id}}">
                             @switch($label->type)
                                 @case("int")
-                                    <input required type="number" min="0" name="cols[]" value="{{old('cols'.$index)}}">
+                                    <input required type="number" min="0" name="cols[]" value="{{old('cols.'.$index)}}">
                                     @break
                                 @case("text")
-                                    <input required type="text" maxlength=40 name="cols[]" value="{{old('cols'.$index)}}">
+                                    <input required type="text" maxlength=40 name="cols[]" value="{{old('cols.'.$index)}}">
                                     @break
                                 @default                            
                             @endswitch  

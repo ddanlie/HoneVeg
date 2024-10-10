@@ -37,7 +37,7 @@
                 @else
                     <img width=300 height=300 style="border-radius: 5%;">
                 @endif
-
+                
                 <h2>Available: {{$product->available_amount}}</h2>
                 <div class="amountButtons">
                     <a onclick="minusOne();"><x-defaultButton>–</x-defaultButton></a>
@@ -49,6 +49,8 @@
                     <x-defaultButton type="submit" name="put_to_order" id="submitAmountButton">Buy</x-defaultButton>
 
                 </form>
+
+                
             </div>
 
             <div class="productStatus">

@@ -27,19 +27,23 @@
                         $checkPath = public_path($avatarPath) 
                     @endphp
                     @if(file_exists($checkPath))
-                        <img width=350 height=500 src="{{asset($avatarPath)}}" style="border-radius: 5%;"/>
+                        <img id="avatarImage" width=350 height=500 src="{{asset($avatarPath)}}" style="border-radius: 5%;"/>
                     @else
-                        <img width=350 height=500 src="{{asset('/images/default/defaultAvatar.jpg')}}" style="border-radius: 5%;"/>
+                        <img id="avatarImage" width=350 height=500 src="{{asset('/images/default/defaultAvatar.jpg')}}" style="border-radius: 5%;"/>
                     @endif
                     @can('own-given-profile-id', $userPageOwner->user_id)
                         <form id="loadimgform" method="POST" action={{url('/profile/'.$userPageOwner->user_id)}} enctype="multipart/form-data">
                             @csrf
                             @method("PATCH")
-                            <input type="file" name="image">    
+                            <input id="avatarInput" type="file" name="image">    
                         </form>
                         <h2 style="font-size:16px;">Image size: 350x500</h2>
                         <x-defaultButton form="loadimgform" type="submit" name="edit_profile" value="change_avatar">Load image</x-defaultButton>    
                     @endcan   
+
+                    <script>
+                        document.getElementById('avatarImage').onclick = () => document.getElementById('avatarInput').click();
+                    </script>
                 </div>
             <div class="statusInfo">
                 <div>
@@ -93,7 +97,9 @@
             </div>
         </div>
     </div>
-    <div class="userActivities">
+    <div id="uActivs" class="userActivities">
+        <div class="activity myActivity" style="visibility: hidden;"></div>
+        <div class="activity myActivity" style="visibility: hidden;"></div>
         @can('own-given-profile-id', $userPageOwner->user_id)
             <div class="activity myActivity">
                     <h1 style="color:white;">Rated products</h1>
@@ -240,7 +246,9 @@
 
             </div>
         @endcan
-        
+        <div class="activity myActivity" style="visibility: hidden;"></div>
+        <div class="activity myActivity" style="visibility: hidden;"></div>
+    </div>
         <script>
             const pointerXScroll = (elem) => {
             let isDragging = false;
@@ -307,19 +315,18 @@
         </script>
 
         <script>
-            let sidebar = document.querySelector(".sidebar");
+            window.addEventListener('beforeunload', function() {
+                sessionStorage.setItem('profileScroll', window.scrollY);
+            });
+            window.addEventListener('load', function() {
+                if (sessionStorage.getItem('profileScroll') !== null)
+                    window.scrollTo(0, parseInt(sessionStorage.getItem('profileScroll')));
+            });
+        </script>
 
-// Retrieve the stored scroll position from localStorage
-let storedScrollPosition = localStorage.getItem("sidebarScroll");
-// If a stored scroll position exists, scroll the sidebar to that position
-if (storedScrollPosition !== null) {
-  sidebar.scrollTop = Number(storedScrollPosition);
-}
-// Store the scroll position in localStorage before the page is unloaded
-window.addEventListener("beforeunload", () => {
-  localStorage.setItem("sidebarScroll", sidebar.scrollTop);
-});
-            </script>
-    </div>
+        <script>
+            const activitiecs = document.getElementById('uActivs');
+            activitiecs.scrollLeft = (activitiecs.scrollWidth - activitiecs.clientWidth) / 2;
+        </script>
 
 </x-default>

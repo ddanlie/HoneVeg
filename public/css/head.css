@@ -28,10 +28,7 @@
 {
     display: grid;
     grid-auto-flow: column;
-    /* margin-left: -20%; */
-    /* justify-content: space-around; */
     gap: 10%;
-    /* flex-wrap: wrap; */
 }
 
 .regButtons
@@ -51,3 +48,13 @@
     background-color: var(--background-style);
 }
 
+.profileButton
+{
+    border-radius: 25px; 
+    border: 3px black solid; 
+    display:flex;
+}
+.profileButton:hover
+{
+    border-color: white;
+}

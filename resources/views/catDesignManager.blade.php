@@ -38,9 +38,12 @@
                 <label>
                     <div>
                         <h2>Shortly describe why we should add this subcategory</h2>
-                        <textarea name="designDescription" rows="10" cols="30" minlength="0" maxlength="500"> 
-                            {{old('designDescription')}}
-                        </textarea>
+                        <textarea id="designDescr" name="designDescription" minlength="0" maxlength="500", style="height: 200px; width:300px;">{{old('designDescription')}}</textarea>
+                        <script>
+                            const textarea = document.getElementById("designDescr");
+                            textarea.focus();
+                            textarea.setSelectionRange(0, 0);
+                        </script>
                     </div>
                 </label>
             </form>
@@ -54,9 +57,7 @@
 
             <div>
                 <h2>Description</h2>
-                <textarea readonly rows="10" cols="30" minlength="3" maxlength="500">
-                {{$design->description}}
-                </textarea>
+                <textarea readonly rows="10" cols="30" minlength="3" maxlength="500">{{$design->description}}</textarea>
             </div>
         @endif
 

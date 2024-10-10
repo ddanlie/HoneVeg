@@ -12,6 +12,12 @@
     padding: 0 20px 0px 20px;
     font-family: var(--secondary-text-style);
     font-size: var(--secondary-text-size);
+    border-width: 0px;
+}
+
+.navButton:hover
+{
+    outline: 3px solid black;
 }
 
 
@@ -28,19 +34,23 @@
     border-style: solid;
     font-family: var(--secondary-text-style);
     font-size: var(--secondary-text-size);
+    border-width: 0px;
+}
+
+.defaultButton:hover
+{
+    outline: 3px solid black;
 }
 
 .notChosenButton
 {
-    border-width: 2px;
-    border-color:transparent;
+    outline-color: transparent;
 } 
 
 
 .chosenButton
 {
-    border-width: 2px;
-    border-color: black;
+    outline: 3px solid black;
 } 
 
 
