@@ -2,7 +2,7 @@
 
 <x-default>
 
-        <x-subcatsPanel :currentCategoryId="end($categoryHierarchy)->category_id"></x-subcatsPanel>
+    <x-subcatsPanel :currentCategoryId="end($categoryHierarchy)->category_id"></x-subcatsPanel>
 
     <x-header></x-header>
 

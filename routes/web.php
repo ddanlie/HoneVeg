@@ -34,9 +34,24 @@ Route::get('/categories/{category_id_hierarchy}', [CategoriesController::class, 
 Route::get('/events', [EventsController::class, 'index'])->name("events.index")
     ->middleware('auth');
 
-Route::get('/events/{event_id}', [EventsController::class, 'show'])->name("events.show")//TODO in controller - if not event with this id - redirect to home
+Route::get('/events/{event_id}', [EventsController::class, 'show'])->name("events.show")
     ->middleware('auth')
     ->where('event_id', '^\d+$');
+
+Route::get('/events/create', [EventsController::class, 'createPage'])->name("events.createPage")
+    ->middleware('auth');
+
+Route::post('/events/create', [EventsController::class, 'createEventData'])->name("events.createEventData")
+    ->middleware('auth');
+
+Route::get('/events/{event_id}/edit', [EventsController::class, 'edit'])->name("events.edit")
+    ->middleware('auth')
+    ->where('event_id', '^\d+$');
+    
+Route::post('/events/{event_id}/edit', [EventsController::class, 'saveEditedEventData'])->name("events.saveEditedEventData")
+    ->middleware('auth')
+    ->where('event_id', '^\d+$');
+
 
 //orders
 Route::get('/order/{order_id}', [OrderController::class, 'index'])->name("order.index")

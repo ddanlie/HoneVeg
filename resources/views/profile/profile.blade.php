@@ -35,7 +35,7 @@
                         <form id="loadimgform" method="POST" action={{url('/profile/'.$userPageOwner->user_id)}} enctype="multipart/form-data">
                             @csrf
                             @method("PATCH")
-                            <input id="avatarInput" type="file" name="image">    
+                            <input id="avatarInput" type="file" name="image" >    
                         </form>
                         <h2 style="font-size:16px;">Image size: 350x500</h2>
                         <x-defaultButton form="loadimgform" type="submit" name="edit_profile" value="change_avatar">Load image</x-defaultButton>    
@@ -108,8 +108,8 @@
         </div>
     </div>
     <div id="uActivs" class="userActivities">
-        <div class="activity myActivity" style="visibility: hidden;"></div>
-        <div class="activity myActivity" style="visibility: hidden;"></div>
+        <div class="activity myActivity" style="visibility: hidden;"></div>{{-- fantom --}}
+        <div class="activity myActivity" style="visibility: hidden;"></div>{{-- fantom --}}
         @can('own-given-profile-id', $userPageOwner->user_id)
             <div class="activity myActivity">
                     <h1 style="color:white;">Rated products</h1>
@@ -185,7 +185,7 @@
                             @endforeach
                             <h2 style="margin: 4% 0 4% 0;">Total: {{$total}}Kč</h2>
                             <div>
-                                <form id="patchStatusForm{{$ord->order->order_id}}" method="POST" action="{{url('/order/'.$ord->order->order_id.'/edit')}}">{{-- ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR--}}
+                                <form id="patchStatusForm{{$ord->order->order_id}}" method="POST" action="{{url('/order/'.$ord->order->order_id.'/edit')}}">{{-- ERROR--}}
                                     @csrf
                                     @method("PATCH")
                                     <input id="patchInput{{$ord->order->order_id}}" name="whatToDo" type="hidden">
@@ -221,7 +221,7 @@
         @endcan <!-- be profile owner -->   
         
 
-        {{-- any user can see what products this guy sells, of course if he is a seller --}}
+        {{-- any user can see what products this guy sells (including himself), of course if he is a seller --}}
         @can('be-seller', $userPageOwner->user_id)
             <div class="activity myActivity">
                 <h1 style="color:white;">Sold products</h1>
@@ -263,8 +263,8 @@
                 @endforeach
             </div>
         @endcan
-        <div class="activity myActivity" style="visibility: hidden;"></div>
-        <div class="activity myActivity" style="visibility: hidden;"></div>
+        <div class="activity myActivity" style="visibility: hidden;"></div>{{-- fantom --}}
+        <div class="activity myActivity" style="visibility: hidden;"></div>{{-- fantom --}}
     </div>
         <script>
             const pointerXScroll = (elem) => {

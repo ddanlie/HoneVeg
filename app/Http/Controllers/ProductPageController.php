@@ -156,7 +156,8 @@ class ProductPageController extends Controller
         if(!in_array($labelValues[0], $ptypes))
             return redirect()->route("product.createIn", ["category_id" => $category_id])->withErrors(['wrong price type' => 'Enter: "1 kg" "100 g" or "1 piece" '])->withInput();
 
-        DB::transaction(function () use ($request, $category_id, $labelIds, $labelValues) {
+        DB::transaction(function () use ($request, $category_id, $labelIds, $labelValues) 
+        {
             $product = new Product();
             $product->name = $request->input('pname');
             $product->seller_user_id = Auth::user()->user_id;
