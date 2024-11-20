@@ -31,7 +31,7 @@
    @if($create)
        <form id="eventeditform" method="POST" action="{{url('/event/create/')}}"  enctype="multipart/form-data">
    @else
-       <form id="eventeditform" method="POST" action="{{url('/event/'.$product->product_id.'/edit')}}"  enctype="multipart/form-data">    
+       <form id="eventeditform" method="POST" action="{{url('/event/'.$event->event_id.'/edit')}}"  enctype="multipart/form-data">    
    @endif
        @csrf
        <label>
@@ -56,12 +56,12 @@
 
        <label>
            <h2>Event start date</h2>
-           <input required type="datetime-local" name="evStart" value="{{$create ? old('evStart') : $event->start_datetime}}">
+           <input required type="datetime-local" name="evStart" value="{{$create ? old('evStart') : $event->start_date}}">
        </label>
 
        <label>
            <h2>Event end date</h2>
-           <input required type="datetime-local" name="evEnd" value="{{$create ? old('evEnd') : $event->end_datetime}}">
+           <input required type="datetime-local" name="evEnd" value="{{$create ? old('evEnd') : $event->end_date}}">
        </label>
 
        <label>

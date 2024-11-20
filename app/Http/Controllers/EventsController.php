@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 use App\Models\Event;
+use App\Models\EventParticipants;
 use App\Models\EventProducts;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -200,4 +201,34 @@ class EventsController extends Controller
         return  redirect()->route("events.createPage")->with(["message" => "Event succesfully edited"]);
     }
 
+    public function  add($event_id)
+    {
+        $user = User::where("user_id", Auth::user()->user_id)->first();
+        if(!$user)
+            abort(500);
+        if($user->events()->where("events.event_id", $event_id)->exists())
+            redirect()->route("events.show", ["event_id"=> $event_id])->withErrors(["event_add" => "Event is already added"]);
+
+        $ep = new EventParticipants();
+        $ep->user_id = Auth::user()->user_id;
+        $ep->event_id = $event_id;
+        $ep->save();
+
+        return  redirect()->route("events.show", ["event_id"=> $event_id])->with(["message" => "Event addded"]);
+    }
+
+    public function  remove($event_id)
+    {
+        $user = User::where("user_id", Auth::user()->user_id)->first();
+        if(!$user)
+            abort(500);
+
+        $epart = EventParticipants::where("user_id", Auth::user()->user_id)->where("event_id", $event_id)->first();
+        if(!$epart)
+            redirect()->route("events.show", ["event_id"=> $event_id])->withErrors(["event_remove" => "Event is not added"]);
+
+        $epart->delete();
+
+        return  redirect()->route("events.show", ["event_id"=> $event_id])->with(["message" => "Event removed"]);
+    }
 }

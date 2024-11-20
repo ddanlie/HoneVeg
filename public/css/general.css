@@ -14,6 +14,8 @@
 @import url('eventManager.css');
 @import url('eventsPanel.css');
 @import url('order.css');
+@import url('event.css');
+
 a 
 {
     text-decoration: none; 

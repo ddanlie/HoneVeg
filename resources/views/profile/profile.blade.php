@@ -126,7 +126,7 @@
             <div class="activity myActivity">
                     <h1 style="color:white;">Events</h1>
                     @foreach($user_exinfo['events'] as $event)
-                    <a href="{{url('/events/'.$event->event_id)}}">
+                    <a href="{{url('/event/'.$event->event_id)}}">
                         <div class="activityItem">
                             <h2>{{$event->name}}</h2>
                             @php
@@ -252,6 +252,7 @@
         @endif    
 
         @can('be-admin') 
+        @can('own-given-profile-id', $userPageOwner->user_id)
             <div class="activity myActivity">
                 <h1 style="color:white;">Moders</h1>
                 @foreach($user_exinfo['moders'] as $role)
@@ -262,6 +263,7 @@
                 </a>
                 @endforeach
             </div>
+        @endcan
         @endcan
         <div class="activity myActivity" style="visibility: hidden;"></div>{{-- fantom --}}
         <div class="activity myActivity" style="visibility: hidden;"></div>{{-- fantom --}}

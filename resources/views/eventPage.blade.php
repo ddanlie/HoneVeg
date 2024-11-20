@@ -30,15 +30,10 @@
                 $avatarPath = 'images/events/'.$event->event_id.'.jpg';
                 $checkPath = public_path($avatarPath) 
             @endphp
-            @if(file_exists($checkPath))
-                <img width=300 height=250 src="{{asset($avatarPath)}}" style="border-radius: 5%;">
-            @else
-                <img width=300 height=250 style="border-radius: 5%;">
-            @endif 
+            <img width=300 height=250 src="{{asset($avatarPath)}}" style="border-radius: 5%;">
 
-            
-            <h2>Event products</h2>
             <div class="eventProductList">
+                <h1>Event products</h1>
                 @foreach($event_exinfo['products'] as $prod)
                     <a href="{{url('/product/'.$prod->product_id)}}">
                         <h3>{{$prod->name}}</h3>
@@ -55,8 +50,9 @@
                 <h2>Seller - {{$event_exinfo['seller']->name}}</h2>
             </a>
             <div>
-                <h2>Start date - {{$event->start_date}}</h2>
-                <h2>End date - {{$event->end_date}}</h2>
+                <h4>Start date - {{$event->start_date}}</h3>
+                <h4>End date - {{$event->end_date}}</h4>
+                <h5>(yyyy-mm-dd)</h5>
             </div>
 
             {{$event->description}};

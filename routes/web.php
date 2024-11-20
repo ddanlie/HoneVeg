@@ -48,11 +48,11 @@ Route::get('/event/{event_id}/edit', [EventsController::class, 'edit'])->name("e
     ->middleware('auth')
     ->where('event_id', '^\d+$');
 
-Route::post('/event/{event_id}/add', [EventsController::class, 'add'])->name("events.add")
+Route::get('/event/{event_id}/add', [EventsController::class, 'add'])->name("events.add")
     ->middleware('auth')
     ->where('event_id', '^\d+$');
 
-Route::post('/event/{event_id}/remove', [EventsController::class, 'remove'])->name("events.remove")
+Route::get('/event/{event_id}/remove', [EventsController::class, 'remove'])->name("events.remove")
     ->middleware('auth')
     ->where('event_id', '^\d+$');
     
