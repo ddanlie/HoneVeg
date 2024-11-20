@@ -95,10 +95,10 @@
                 <h1>No events :(</h1>
             @else
                 @foreach($product_exinfo['events'] as $event)
-                    <a href="{{url("/events/".$event->event_id)}}">
+                    <a href="{{url("/event/".$event->event_id)}}">
                         <div class="eventItem">
                             <h1>{{$event->name}}</h1>
-                            <h2>{{$event->start_date}}</h2>
+                            <h2>{{$event->start_date}} -- {{$event->end_date}}</h2>
                         </div>
                     </a>
                 @endforeach

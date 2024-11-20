@@ -15,14 +15,36 @@ class EventsController extends Controller
 {
     public function index()
     {
+        $events = Event::whereNotNull('event_id')->get();
+
         return view('events', [
-            ""//get events from DB
+            "events" => $events
         ]);
     }
 
     public function show($event_id)
     {
+        $event = Event::where('event_id', $event_id)->first();
+        if(!$event)
+            abort(404);
+        
+        $seller = User::where('user_id', $event->seller_id)->first();
+        if(!$seller)
+            abort(500);
+        
+        $user = User::where('user_id', Auth::user()->user_id)->first();
+        if(!$user)
+            abort(500);
 
+        $eprods = $event->products()->get();
+        
+
+        return view('eventPage', [
+            "event" => $event,
+            "event_exinfo" => [
+                'seller' => $seller, 
+                'products' => $eprods]
+        ]);
     }
 
     //get

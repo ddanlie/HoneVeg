@@ -56,12 +56,12 @@
 
        <label>
            <h2>Event start date</h2>
-           <input required type="datetime" name="evStart" value="{{$create ? old('evStart') : $event->start_datetime}}">
+           <input required type="datetime-local" name="evStart" value="{{$create ? old('evStart') : $event->start_datetime}}">
        </label>
 
        <label>
            <h2>Event end date</h2>
-           <input required type="datetime" name="evEnd" value="{{$create ? old('evEnd') : $event->end_datetime}}">
+           <input required type="datetime-local" name="evEnd" value="{{$create ? old('evEnd') : $event->end_datetime}}">
        </label>
 
        <label>
@@ -80,7 +80,7 @@
        @else
             <h4>You don't have any products</h4>
        @endif
-
+        
 
    </form>
    <x-defaultButton form="eventeditform" type="submit">Done</x-defaultButton>

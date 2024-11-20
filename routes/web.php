@@ -34,21 +34,29 @@ Route::get('/categories/{category_id_hierarchy}', [CategoriesController::class, 
 Route::get('/events', [EventsController::class, 'index'])->name("events.index")
     ->middleware('auth');
 
-Route::get('/events/{event_id}', [EventsController::class, 'show'])->name("events.show")
+Route::get('/event/{event_id}', [EventsController::class, 'show'])->name("events.show")
     ->middleware('auth')
     ->where('event_id', '^\d+$');
 
-Route::get('/events/create', [EventsController::class, 'createPage'])->name("events.createPage")
+Route::get('/event/create', [EventsController::class, 'createPage'])->name("events.createPage")
     ->middleware('auth');
 
-Route::post('/events/create', [EventsController::class, 'createEventData'])->name("events.createEventData")
+Route::post('/event/create', [EventsController::class, 'createEventData'])->name("events.createEventData")
     ->middleware('auth');
 
-Route::get('/events/{event_id}/edit', [EventsController::class, 'edit'])->name("events.edit")
+Route::get('/event/{event_id}/edit', [EventsController::class, 'edit'])->name("events.edit")
+    ->middleware('auth')
+    ->where('event_id', '^\d+$');
+
+Route::post('/event/{event_id}/add', [EventsController::class, 'add'])->name("events.add")
+    ->middleware('auth')
+    ->where('event_id', '^\d+$');
+
+Route::post('/event/{event_id}/remove', [EventsController::class, 'remove'])->name("events.remove")
     ->middleware('auth')
     ->where('event_id', '^\d+$');
     
-Route::post('/events/{event_id}/edit', [EventsController::class, 'saveEditedEventData'])->name("events.saveEditedEventData")
+Route::post('/event/{event_id}/edit', [EventsController::class, 'saveEditedEventData'])->name("events.saveEditedEventData")
     ->middleware('auth')
     ->where('event_id', '^\d+$');
 

@@ -1,3 +1,6 @@
+@props(['events'])
+
+
 <x-default>
     <x-eventsPanel></x-eventsPanel>
 
