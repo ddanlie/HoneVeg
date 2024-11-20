@@ -11,11 +11,13 @@ use App\Models\SellerOrders;
 use App\Models\Label;
 use App\Models\ProductLabelValue;
 use App\Models\User;
+use App\Models\Rating;
 use Database\Factories\ProductLabelValueFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Carbon;
+use Spatie\ErrorSolutions\Support\AiPromptRenderer;
 
 class ProductPageController extends Controller  
 {
@@ -27,6 +29,7 @@ class ProductPageController extends Controller
         {
             return redirect()->route("categories.index");
         }
+
 
         $labelValues = DB::table('products')
         ->where('products.product_id', '=', $product_id)
@@ -41,8 +44,13 @@ class ProductPageController extends Controller
         $mainLabelValues['price type'] = $labelValues['price type'];
         unset($labelValues['price type']);
 
-        
-
+        $user_rating = 0;
+        if(Auth::check())
+        {
+            $r = Rating::where("user_id", Auth::user()->user_id)->where("product_id", $product_id)->first();
+            if($r)
+                $user_rating = $r->rating;
+        }
 
         return view('productPage', [
             'product' => $product,
@@ -51,9 +59,42 @@ class ProductPageController extends Controller
                 'labels' => $labelValues,
                 'categoryName' => Category::where('category_id', $product->category_id)->first()->name,
                 'seller' => User::where('user_id', $product->seller_user_id)->first()->name,
+                'userRating' => $user_rating,
                 'events' => $product->events()->get()
             ]       
         ]);
+    }
+
+    public function rate(Request $request, $product_id)
+    {
+        if(!Auth::check())
+            return redirect()->route("product.index", ['product_id' => $product_id])->withErrors(["product_rate"=>"You have to sign in"]);
+        
+        $product = Product::where("product_id", $product_id)->first();
+        if(!$product)
+            abort(500); 
+
+        $rating = Rating::where("user_id", Auth::user()->user_id)->where("product_id", $product_id)->first();
+        if(!$rating)
+        {
+            $rating = new Rating();
+            $rating->user_id = Auth::user()->user_id;
+            $rating->product_id = $product_id;
+        }
+        $rating->rating = floatval($request->input('rating'));
+        $rating->save();
+
+        
+        $count = $product->ratings()->count();
+        if($count > 0)
+        {
+            $ratingSum = $product->ratings()->select(DB::raw('SUM(ratings.rating) as rating_sum'))->value('rating_sum');
+            $product->total_rating = $ratingSum / $count;
+            $product->save();
+        }
+
+
+        return redirect()->route("product.index", ['product_id' => $product_id]);
     }
 
     //add to order. post 

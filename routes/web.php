@@ -88,6 +88,10 @@ Route::post('/product/{product_id}', [ProductPageController::class, 'store'])->n
     ->middleware('auth')
     ->where('product_id', '^\d+$');
 
+Route::post('/product/{product_id}/rate', [ProductPageController::class, 'rate'])->name("product.rate")
+    ->middleware('auth')
+    ->where('product_id', '^\d+$');
+
 Route::get('/product/{product_id}/edit', [ProductPageController::class, 'edit'])->name("product.edit")//routes to MANAGER page
     ->middleware('auth')
     ->where('product_id', '^\d+$');

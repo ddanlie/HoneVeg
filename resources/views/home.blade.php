@@ -1,8 +1,7 @@
 @props(['products'])
 
 <x-default>
-    <x-postHeaderContent>
-    </x-postHeaderContent>
+    <x-header></x-header>
 
     <x-catalog :products="$products"></x-catalog>
     

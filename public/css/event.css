@@ -41,7 +41,7 @@
 .eventsCatalog
 {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     padding: 5% 0 5% 0;
     background-color: var(--background-style);

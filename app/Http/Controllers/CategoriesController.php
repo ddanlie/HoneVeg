@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller
 {
@@ -46,11 +47,20 @@ class CategoriesController extends Controller
         //end
 
         $subcategories = $category->subCategories()->whereColumn('parent_category_id', '!=', 'category_id')->get();
-        $products = $category->products()->paginate(HomeController::getCatalogPerPageAmount());//delete this later
+        //$products = $category->products()->paginate(HomeController::getCatalogPerPageAmount());//delete this later
+        
         //get all products from all children
-        //...
+        $catIds = [$category->category_id];//$subcategories->pluck('category_id')->toArray());
+        $idx = 0;
+        while($idx < count($catIds))
+        {
+            $c = Category::where("category_id", $catIds[$idx])->first();
+            $sc = $c->subCategories()->whereColumn('parent_category_id', '!=', 'category_id')->get()->pluck('category_id')->toArray();
+            $catIds = array_merge($catIds, $sc);
+            $idx++;
+        }
+        $products = DB::table('products')->whereIn('category_id', $catIds)->paginate(HomeController::getCatalogPerPageAmount());
         //end
-
 
 
         return view('subCategories', [

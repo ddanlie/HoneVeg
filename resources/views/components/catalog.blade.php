@@ -28,6 +28,18 @@
     
 
     <aside class="filters">
+        {{-- <form action="{{url(/applyFilters)}}" method="POST">
+            @method("POST")
+            @csrf
+       
         <h1 style="margin-top: 20%; margin-bottom: 10%;">Filters</h1>
+        <x-defaultButton type="submit">refresh</x-defaultButton>
+
+        <div class="priceFilter">
+            <h3>Price</h3>
+            <input type="number" name="priceFilter" min=1 max=10000>
+        </div>
+
+        </form> --}}
     </aside>
 </section>

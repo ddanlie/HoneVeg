@@ -26,6 +26,7 @@
 
 
     <div class="productBase">
+
         <div class="productBaseLeft">
             <div class="productImageContent">
                 @php 
@@ -45,6 +46,7 @@
                     <a onclick="plusOne({{$product->available_amount}});"><x-defaultButton>+</x-defaultButton></a>
                 </div>
                 <form method="POST" action="{{url('product/'.$product->product_id)}}" onsubmit="javascript:setAmount();">
+                    @method("POST")
                     @csrf
                     <x-defaultButton type="submit" name="put_to_order" id="submitAmountButton">Buy</x-defaultButton>
 
@@ -84,6 +86,22 @@
                         <h2>{{$labelValue}}</h2>
                     </div>
                 @endforeach
+            </div>
+
+            <h1>Rate product</h1>
+            <div class="productRating">
+                @for ($i = 1; $i <= 5; $i++)
+                    <div style="display: flex; flex-direction:column;">
+                        <form action="{{ url('product/'.$product->product_id.'/rate') }}" method="POST" style="margin: 0;">
+                            @method("POST")
+                            @csrf
+                            <button style="all: unset;" type="submit" name="rating" value="{{ $i }}">
+                                <img src="{{ $product_exinfo['userRating'] >= floatval($i) ? asset('icons/star.png') : asset('icons/gray-star.png')}}" width="50" height="50">
+                            </button>
+                        </form>
+                        <h3 style="text-align: center; margin-top:-5%;">{{ $i }}</h3>
+                    </div>
+                @endfor
             </div>
         </div>
     </div>

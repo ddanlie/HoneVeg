@@ -70,6 +70,29 @@
     width: 25%;
 }
 
+
+.productLabels
+{
+    margin-bottom: 25%;
+}
+
+.productRating
+{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+    gap: 2%;
+}
+
+.productRatingNums
+{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    padding: 0 15% 0 0;
+    margin-top: -5%;
+}
+
 .productEvents
 {
     display: flex;
