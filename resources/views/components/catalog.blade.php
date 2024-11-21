@@ -28,17 +28,25 @@
     
 
     <aside class="filters">
-        {{-- <form action="{{url()->current()}}" method="GET">
+        <form action="{{url()->current()}}" method="GET">
             @csrf
        
         <h1 style="margin-top: 20%; margin-bottom: 10%;">Filters</h1>
         <x-defaultButton type="submit">refresh</x-defaultButton>
 
         <div class="priceFilter">
-            <h3>Price</h3>
-            <input type="number" name="priceFilter" min=1 max=10000>
+            <h3>Price less than</h3>
+            <input type="range" id="priceSlider" name="priceFilter" value={{request('priceFilter', 10000)}} min=1 max=10000 oninput="updatePriceVal(this.value)">
+            <h4 id="priceSliderVal">{{request('priceFilter', 10000)}}</h4>
         </div>
 
-        </form> --}}
+        </form>
+
+        <script>
+            function updatePriceVal(value)
+            {
+                document.getElementById('priceSliderVal').textContent = value;
+            }
+        </script>
     </aside>
 </section>

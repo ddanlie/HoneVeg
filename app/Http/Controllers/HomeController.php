@@ -11,12 +11,13 @@ class HomeController extends Controller
     {
         //get catalog from DB
        
-        $products = Product::whereNotNull('product_id')->paginate($this->getCatalogPerPageAmount());
 
-        //$products = $this->filterProducts($request, $products);
+        $products = Product::whereNotNull('product_id');
+
+        $products = $this->filterProducts($request, $products);
 
         return view('home', [
-            "products" => $products
+            "products" => $products->paginate($this->getCatalogPerPageAmount())
         ]);
     }
 
@@ -27,6 +28,11 @@ class HomeController extends Controller
 
     public static function filterProducts(Request $request, $products)
     {
+        $priceF = $request->input("priceFilter");
 
+        if( $priceF)
+            $products->where('price', '<=', floatval($priceF));
+
+        return $products;
     }
 }
