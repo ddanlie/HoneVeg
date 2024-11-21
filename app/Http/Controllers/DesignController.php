@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 use App\Models\DesignLabels;
+use App\Models\Label;
+use Illuminate\Support\Facades\DB;
 
 class DesignController extends Controller
 {
@@ -24,13 +26,14 @@ class DesignController extends Controller
             abort(500);
         if(Gate::denies("be-design-author", $design_id) && Gate::denies("be-moder"))
             abort(404);
-
-
+        
+        $dlabels = DesignLabels::where("design_id", $design_id)->get();
 
         return view("catDesignManager", [
             "create" => false,
             "creationCategory" => $cat,
-            "design" => $design
+            "design" => $design,
+            "dlabels" => $dlabels
         ]);
     }
 
@@ -70,16 +73,35 @@ class DesignController extends Controller
         }
 
         $design = new ChangeCategoriesDesign();
-        $design->name = $request->input("designSubcatName");
-        $design->creator_id = $creator->user_id;
-        $design->description = $request->input("designDescription");
-        $design->creation_date = Carbon::now()->toDateTimeString();
-        $design->status = "created";
-        $design->parent_category_id = $category_id;
-        $design->close_date = null;
-        $design->moderator_id = null;
+        DB::transaction(function () use ($request, $creator, $category_id, $design) {
+            
+            $design->name = $request->input("designSubcatName");
+            $design->creator_id = $creator->user_id;
+            $design->description = $request->input("designDescription");
+            $design->creation_date = Carbon::now()->toDateTimeString();
+            $design->status = "created";
+            $design->parent_category_id = $category_id;
+            $design->close_date = null;
+            $design->moderator_id = null;
+    
+            $design->save();
+    
+    
+            //design labels
+            $names = $request->input('lblnames');
+            $types = $request->input('lbltypes');
+            for($i = 0; $i < count($names); $i++)
+            {
+                $designLabels = new DesignLabels();
+                $designLabels->design_id = $design->design_id;
+                $designLabels->name = $names[$i];
+                $designLabels->type = $types[$i];
+                $designLabels->save();
+            }
+            
+            
+        });
 
-        $design->save();
 
         return redirect()->route("design.index", ["design_id" => $design->design_id])
             ->with(["message" => "Suggested. Check design status on profile page"]);
@@ -130,7 +152,15 @@ class DesignController extends Controller
         $cat->parent_category_id = $design->parent_category_id;
         $cat->save();
         //add category labels 
-        //TODO
+        $lbls = DesignLabels::where("design_id", $design_id)->get();
+        foreach($lbls as $lbl)
+        {
+            $label = new Label();
+            $label->name = $lbl->name;
+            $label->type = $lbl->type;
+            $label->category_id = $design->parent_category_id;
+            $label->save();
+        }
 
         return redirect()->route("design.index", [ "design_id" => $design_id]);
     }
@@ -146,9 +176,12 @@ class DesignController extends Controller
 
         $category_id = $design->parent_category_id;
         //delete design labels
-        $lbls = DesignLabels::where("design_id", $design_id);
+        $lbls = DesignLabels::where("design_id", $design_id)->get();
         if($lbls)
-            $lbls->delete();
+        {
+            foreach($lbls as $lbl)
+                $lbl->delete();
+        }
         //delete design
         $design->delete();
         

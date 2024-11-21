@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('design_label_id');
             $table->unsignedBigInteger('design_id')->references('design_id')->on('change_categories_designs');
             $table->string('name');
-            $table->enum('type', ['int', 'text'])->default('text');
+            $table->enum('type', ['number', 'text'])->default('text');
         });
     }
 

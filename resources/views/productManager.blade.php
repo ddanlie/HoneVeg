@@ -80,7 +80,7 @@
                             <h4>{{$label->name}}</h4>
                             <input type="hidden" name="lblids[]" value="{{$label->label_id}}">
                             @switch($label->type)
-                                @case("int")
+                                @case("number")
                                     <input required type="number" min="0" name="cols[]" value="{{old('cols.'.$index)}}">
                                     @break
                                 @case("text")
@@ -97,7 +97,7 @@
                         <h4>{{$prodLabel->labels[0]->name}}</h4>
                         <input type="hidden" name="lblids[]" value="{{$prodLabel->label_id}}">
                         @switch($prodLabel->labels[0]->type)
-                            @case("int")
+                            @case("number")
                                 <input required type="number" min="0" name="cols[]" value="{{$prodLabel->label_value}}">
                                 @break
                             @case("text")

@@ -7,11 +7,14 @@ use App\Models\Product;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         //get catalog from DB
        
         $products = Product::whereNotNull('product_id')->paginate($this->getCatalogPerPageAmount());
+
+        //$products = $this->filterProducts($request, $products);
+
         return view('home', [
             "products" => $products
         ]);
@@ -21,4 +24,9 @@ class HomeController extends Controller
     {
         return 30;//dont change this
     } 
+
+    public static function filterProducts(Request $request, $products)
+    {
+
+    }
 }

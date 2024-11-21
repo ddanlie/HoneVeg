@@ -28,8 +28,7 @@
     
 
     <aside class="filters">
-        {{-- <form action="{{url(/applyFilters)}}" method="POST">
-            @method("POST")
+        {{-- <form action="{{url()->current()}}" method="GET">
             @csrf
        
         <h1 style="margin-top: 20%; margin-bottom: 10%;">Filters</h1>

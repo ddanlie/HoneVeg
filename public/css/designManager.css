@@ -16,3 +16,18 @@
     flex-direction: column;
     gap: 30px;
 }
+
+.labelsList
+{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.labelsList2
+{
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}

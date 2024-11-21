@@ -24,7 +24,7 @@ class DesignLabelsFactory extends Factory
         return [
             'design_id' => ChangeCategoriesDesign::factory(),
             'name' => fake()->word(),
-            'type' => fake()->randomElement(['int', 'text'])
+            'type' => fake()->randomElement(['number', 'text'])
         ];
     }
 }
