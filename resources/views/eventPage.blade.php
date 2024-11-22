@@ -28,7 +28,7 @@
         <div class="eventBaseLeft">
             @php 
                 $avatarPath = 'images/events/'.$event->event_id.'.jpg';
-                $checkPath = public_path($avatarPath) 
+                $checkPath = public_path('web/'.$avatarPath) 
             @endphp
             <img width=300 height=250 src="{{asset('web/'.$avatarPath)}}" style="border-radius: 5%;">
 

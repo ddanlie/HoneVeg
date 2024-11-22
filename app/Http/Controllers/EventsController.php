@@ -109,7 +109,7 @@ class EventsController extends Controller
 
 
         if(request()->image && $event != null)
-            request()->image->move(public_path('images/events/'), $event->product_id.'.jpg');
+            request()->image->move(public_path('web/images/events/'), $event->product_id.'.jpg');
 
         return  redirect()->route("events.createPage")->with(["message" => "Event succesfully created"]);
     }
@@ -196,7 +196,7 @@ class EventsController extends Controller
 
 
         if(request()->image && $event != null)
-            request()->image->move(public_path('images/events/'), $event->product_id.'.jpg');
+            request()->image->move(public_path('web/images/events/'), $event->product_id.'.jpg');
 
         return  redirect()->route("events.createPage")->with(["message" => "Event succesfully edited"]);
     }

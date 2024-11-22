@@ -8,7 +8,7 @@
             @foreach($events as $ev)
                 @php 
                     $avatarPath = 'images/events/'.$ev->event_id.'.jpg';
-                    $checkPath = public_path($avatarPath) 
+                    $checkPath = public_path('web/'.$avatarPath) 
                 @endphp
                 <div class="ecatItem">
                     <a href="{{url('/event/'.$ev->event_id)}}">

@@ -31,13 +31,9 @@
             <div class="productImageContent">
                 @php 
                     $avatarPath = 'images/products/'.$product->product_id.'.jpg';
-                    $checkPath = public_path($avatarPath) 
+                    $checkPath = public_path('web/'.$avatarPath) 
                 @endphp
-                @if(file_exists($checkPath))
-                    <img width=300 height=300 src="{{asset('web/'.$avatarPath)}}" style="border-radius: 5%;">
-                @else
-                    <img width=300 height=300 style="border-radius: 5%;">
-                @endif
+                <img width=300 height=300 src="{{asset($avatarPath)}}" style="border-radius: 5%;">
                 
                 <h2>Available: {{$product->available_amount}}</h2>
                 <div class="amountButtons">

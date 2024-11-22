@@ -24,10 +24,10 @@
                 <div class="profileImageContent">
                     @php 
                         $avatarPath = 'images/users/'.$userPageOwner->user_id.'.jpg';
-                        $checkPath = public_path($avatarPath) 
+                        $checkPath = public_path('web/'.$avatarPath) 
                     @endphp
                     @if(file_exists($checkPath))
-                        <img id="avatarImage" width=350 height=500 src="{{asset('web/'.$avatarPath)}}" style="border-radius: 5%;"/>
+                        <img id="avatarImage" width=350 height=500 src="{{asset('/web/'.$avatarPath)}}" style="border-radius: 5%;"/>
                     @else
                         <img id="avatarImage" width=350 height=500 src="{{asset('/web/images/default/defaultAvatar.jpg')}}" style="border-radius: 5%;"/>
                     @endif

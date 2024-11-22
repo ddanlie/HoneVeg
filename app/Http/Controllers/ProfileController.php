@@ -141,7 +141,7 @@ class ProfileController extends Controller
                         'message' => 'You are already selling'
                     ]);
                 }
-                if(file_exists(public_path('/images/users/'.$user_id.'.jpg')))
+                if(file_exists(public_path('/web/images/users/'.$user_id.'.jpg')))
                 {
                     $roles = new Roles;
                     $roles->user_id = $user_id;
@@ -160,7 +160,7 @@ class ProfileController extends Controller
                 $request->validate([
                     'image' => 'required|image|mimes:jpeg,jpg,png|dimensions:max_width=1440,min_width=100,max_height=2560,min_height=200',
                 ]);
-                request()->image->move(public_path('images/users/'), $user_id.'.jpg');  
+                request()->image->move(public_path('web/images/users/'), $user_id.'.jpg');  
 
                 break;
 

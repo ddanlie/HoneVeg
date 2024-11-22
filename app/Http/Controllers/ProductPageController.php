@@ -221,7 +221,7 @@ class ProductPageController extends Controller
             }
 
             if(request()->image)
-                request()->image->move(public_path('images/products/'), $product->product_id.'.jpg');
+                request()->image->move(public_path('web/images/products/'), $product->product_id.'.jpg');
         });
 
         return  redirect()->route("product.createIn", ["category_id" => $category_id])->with(["message" => "Product succesfully created"]);
@@ -299,7 +299,7 @@ class ProductPageController extends Controller
                 $plval->save();
             }
             if(request()->image)
-                request()->image->move(public_path('images/products/'), $product->product_id.'.jpg');
+                request()->image->move(public_path('web/images/products/'), $product->product_id.'.jpg');
         });
 
         return  redirect()->route("product.edit", ["product_id" => $product_id])->with(["message" => "Product succesfully edited"]);
