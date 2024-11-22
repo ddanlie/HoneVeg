@@ -77,13 +77,22 @@
 
 .filters
 {
-    display: block;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     width: 20%;
     justify-content: center;
     background-color: #D2D2D2;
     /* border: 1px solid black; */
     
+}
+
+.filterList
+{
+    max-height: 500px;
+    overflow-y: auto;
+    padding-left: 5%;
+    margin-top: 20%;
 }
 
 

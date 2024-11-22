@@ -291,7 +291,6 @@ class ProductPageController extends Controller
                 abort(500);
             for($i = 0; $i < count($labelIds); $i++)
             {  
-                dump($labelIds[$i]);
                 $plval = $plvals->where('label_id', $labelIds[$i])->first();
                 if(!$plval)
                     abort(500);

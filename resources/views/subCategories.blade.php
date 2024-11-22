@@ -24,7 +24,7 @@
                 @endforeach
             </div>
         </div>
-        <x-catalog :products="$categoryProducts"></x-catalog>
+        <x-catalog :products="$categoryProducts" :labels="[]"></x-catalog>
     </div>
 
 
