@@ -33,7 +33,7 @@
                     $avatarPath = 'images/products/'.$product->product_id.'.jpg';
                     $checkPath = public_path('web/'.$avatarPath) 
                 @endphp
-                <img width=300 height=300 src="{{asset($avatarPath)}}" style="border-radius: 5%;">
+                <img width=300 height=300 src="{{asset('web/'.$avatarPath)}}" style="border-radius: 5%;">
                 
                 <h2>Available: {{$product->available_amount}}</h2>
                 <div class="amountButtons">
