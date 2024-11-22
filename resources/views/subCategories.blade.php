@@ -1,4 +1,4 @@
-@props(['categoryHierarchy', 'subcategories', 'categoryProducts']) <!-- hierarchy is an ordered array where [0] is main category, [1] its subacegory [2] sub-subcategory ... -->
+@props(['categoryHierarchy', 'subcategories', 'categoryProducts', 'labels']) <!-- hierarchy is an ordered array where [0] is main category, [1] its subacegory [2] sub-subcategory ... -->
 
 <x-default>
 
@@ -24,7 +24,7 @@
                 @endforeach
             </div>
         </div>
-        <x-catalog :products="$categoryProducts" :labels="[]"></x-catalog>
+        <x-catalog :products="$categoryProducts" :labels="$labels"></x-catalog>
     </div>
 
 

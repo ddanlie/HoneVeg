@@ -21,7 +21,7 @@ class CategoriesController extends Controller
     }
 
 
-    public function show($category_id_hierarchy)
+    public function show(Request $request, $category_id_hierarchy)
     {
         $ids = explode('/', $category_id_hierarchy);
         $category = Category::where('category_id', end($ids))->first();
@@ -59,13 +59,16 @@ class CategoriesController extends Controller
             $catIds = array_merge($catIds, $sc);
             $idx++;
         }
-        $products = DB::table('products')->whereIn('category_id', $catIds)->paginate(HomeController::getCatalogPerPageAmount());
+        $products = DB::table('products')->whereIn('category_id', $catIds);
         //end
+        $labels = HomeController::getAllLabelsFromCat($category->category_id, false);
 
+        $products =  HomeController::filterProducts($request, $products, $labels);
 
         return view('subCategories', [
             'categoryHierarchy' => $hierarchy,
             'subcategories' => $subcategories, 
-            'categoryProducts' => $products]);
+            'categoryProducts' => $products->paginate(HomeController::getCatalogPerPageAmount()),
+            'labels' => $labels]);
     }
 }

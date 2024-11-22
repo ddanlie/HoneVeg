@@ -16,7 +16,7 @@ class HomeController extends Controller
 
         $products = Product::whereNotNull('product_id');
 
-        $labels = $this->getAllLabelsFromCat(1);
+        $labels = $this->getAllLabelsFromCat(1, true);
 
         $products = $this->filterProducts($request, $products, $labels);
 
@@ -100,19 +100,31 @@ class HomeController extends Controller
         $pids = [];
 
         $pids = array_merge($pids, $numberPvals->pluck("product_id")->toArray());
-        //$pids = array_merge($pids, $textPvals->pluck("product_id")->toArray());
+        $pids = array_merge($pids, $textPvals->pluck("product_id")->toArray());
         $products->whereIn("product_id", $pids);
 
         return $products;
     }
 
-    public static function getAllLabelsFromCat($category_id)
+    public static function getAllLabelsFromCat($category_id, $first=false)
     {
         $labels = [];
         $cats = [];
         $counter = 0;
+        $topcat = Category::where("category_id", $category_id)->first();
 
-        $subcats = Category::where("category_id", $category_id)->first()->subcategories()->where("category_id", "!=", $category_id)->get();
+        
+        foreach($topcat->labels()->get() as $lbl)
+        {
+            array_push($labels, $lbl);
+        }
+
+        if($first)
+            $subcats = $topcat->subcategories()->where("category_id", "!=", $category_id)->get();
+        else
+            $subcats = $topcat->subcategories()->get();
+
+
         foreach($subcats as $subcat)
         {
             array_push($cats, $subcat);
