@@ -66,6 +66,8 @@
 
                     @elseif($lab->type == "text")
                         <h3>{{$lab->name}} ({{$lab->category()->first()->name}})</h3>
+
+                        <input type="text" name="{{$lab->name}}_{{$lab->label_id}}" value="{{request($lab->name.'_'.$lab->label_id)}}" min=1 max=10000>
                     @endif
                 </div>
             @endforeach

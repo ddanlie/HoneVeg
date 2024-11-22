@@ -72,16 +72,27 @@ class HomeController extends Controller
                         }
                         return $rejected;
                     });
-                    if(count($rejectedProdsId) > 0)
-                    {
-                        $numberPvals = $numberPvals->reject(function ($pval) use ($rejectedProdsId) {
-                            return in_array($pval->product_id, $rejectedProdsId);
-                        });
-                    }
                 }
                 elseif($lab->type == "text")
                 {
+                    $textPvals = $textPvals->reject(function ($pval) use ($lab, $labF, &$rejectedProdsId) {
+                        $rejected = $pval->label_id == $lab->label_id && $pval->label_value != $labF && $labF != "";
+                        if($rejected)
+                        {
+                            array_push($rejectedProdsId, $pval->product_id);
+                        }
+                        return $rejected;
+                    });
+                }
+                if(count($rejectedProdsId) > 0)
+                {
+                    $numberPvals = $numberPvals->reject(function ($pval) use ($rejectedProdsId) {
+                        return in_array($pval->product_id, $rejectedProdsId);
+                    });
 
+                    $textPvals = $textPvals->reject(function ($pval) use ($rejectedProdsId) {
+                        return in_array($pval->product_id, $rejectedProdsId);
+                    });
                 }
             }
         }
