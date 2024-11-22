@@ -27,9 +27,9 @@
                         $checkPath = public_path($avatarPath) 
                     @endphp
                     @if(file_exists($checkPath))
-                        <img id="avatarImage" width=350 height=500 src="{{asset($avatarPath)}}" style="border-radius: 5%;"/>
+                        <img id="avatarImage" width=350 height=500 src="{{asset('web/'.$avatarPath)}}" style="border-radius: 5%;"/>
                     @else
-                        <img id="avatarImage" width=350 height=500 src="{{asset('/images/default/defaultAvatar.jpg')}}" style="border-radius: 5%;"/>
+                        <img id="avatarImage" width=350 height=500 src="{{asset('/web/images/default/defaultAvatar.jpg')}}" style="border-radius: 5%;"/>
                     @endif
                     @can('own-given-profile-id', $userPageOwner->user_id)
                         <form id="loadimgform" method="POST" action={{url('/profile/'.$userPageOwner->user_id)}} enctype="multipart/form-data">

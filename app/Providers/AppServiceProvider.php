@@ -28,14 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading();
         Schema::defaultStringLength(191);
 
-        $debug = env('APP_DEBUG', '');
-        if($debug == "false")
-        {
-            URL::macro('asset', function ($path) {
-                return url('web/' . $path);
-            });
-        }
-
         Gate::define('be-admin', function (User $user, $user_id=null) {
             $who = $user;
             if($user_id)

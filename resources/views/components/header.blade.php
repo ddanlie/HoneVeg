@@ -32,7 +32,7 @@
                 @csrf
                 @method('PATCH')
             </form>
-            <a href="{{ url('/profile/'. Auth::user()->user_id) }}"><img src="{{ asset('/icons/user.png') }}" class="profileButton"  width=40 heigh=40 style="background-color: var(--background-style); border-radius: 25px;"></a>
+            <a href="{{ url('/profile/'. Auth::user()->user_id) }}"><img src="{{ asset('/web/icons/user.png') }}" class="profileButton"  width=40 heigh=40 style="background-color: var(--background-style); border-radius: 25px;"></a>
             <a href="{{ url("/home") }}" style="display:flex; align-items:center; text-decoration: none;"><x-defaultButton type="submit" form="lout" class={{$signinBtn}}>Log out</x-defaultButton></a>
         @endauth
     </div>

@@ -30,7 +30,7 @@
                 $avatarPath = 'images/events/'.$event->event_id.'.jpg';
                 $checkPath = public_path($avatarPath) 
             @endphp
-            <img width=300 height=250 src="{{asset($avatarPath)}}" style="border-radius: 5%;">
+            <img width=300 height=250 src="{{asset('web/'.$avatarPath)}}" style="border-radius: 5%;">
 
             <div class="eventProductList">
                 <h1>Event products</h1>

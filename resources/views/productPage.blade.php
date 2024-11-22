@@ -34,7 +34,7 @@
                     $checkPath = public_path($avatarPath) 
                 @endphp
                 @if(file_exists($checkPath))
-                    <img width=300 height=300 src="{{asset($avatarPath)}}" style="border-radius: 5%;">
+                    <img width=300 height=300 src="{{asset('web/'.$avatarPath)}}" style="border-radius: 5%;">
                 @else
                     <img width=300 height=300 style="border-radius: 5%;">
                 @endif
@@ -96,7 +96,7 @@
                             @method("POST")
                             @csrf
                             <button style="all: unset;" type="submit" name="rating" value="{{ $i }}">
-                                <img src="{{ $product_exinfo['userRating'] >= floatval($i) ? asset('icons/star.png') : asset('icons/gray-star.png')}}" width="50" height="50">
+                                <img src="{{ $product_exinfo['userRating'] >= floatval($i) ? asset('web/icons/star.png') : asset('web/icons/gray-star.png')}}" width="50" height="50">
                             </button>
                         </form>
                         <h3 style="text-align: center; margin-top:-5%;">{{ $i }}</h3>

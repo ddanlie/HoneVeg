@@ -13,7 +13,7 @@
                 @php $path .= "/".$cat->category_id; @endphp
                 <a href="{{ url($path) }}"><h2>{{$cat->name}}</h2></a>
                 @if(!$loop->last)
-                    <img width=20 height=20 src="{{asset('/icons/subcatNavArrow.png')}}">
+                    <img width=20 height=20 src="{{asset('/web/icons/subcatNavArrow.png')}}">
                 @endif
             @endforeach
         </div>
