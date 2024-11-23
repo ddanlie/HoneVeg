@@ -40,6 +40,9 @@ class HomeController extends Controller
 
     public static function filterProducts(Request $request, $products, $labels)
     {
+        if($request->input("reset", "true") == "true")
+            return $products;
+
         $priceF = $request->input("priceFilter");
 
         if($priceF)
@@ -55,45 +58,33 @@ class HomeController extends Controller
             return $pval->label && $pval->label->type == 'number';
         });
         
-        
+        $hideAny = $request->input("findSpecific", "false");
+        if($hideAny == "true")
+            $hideAny = true;
+        else
+            $hideAny = false;
+
         foreach($labels as $lab)
         {
-            $rejectedProdsId = [];
-            $labF = $request->input($lab->name.'_'.$lab->label_id);
-            if($labF)
+            $labF = $request->input(str_replace(" ", "_", $lab->name.'_'.$lab->label_id));
+            if($lab->type == "number")
             {
-                if($lab->type == "number")
-                {
-                    $numberPvals = $numberPvals->reject(function ($pval) use ($lab, $labF, &$rejectedProdsId) {
-                        $rejected = $pval->label_id == $lab->label_id && $pval->label_value > floatval($labF);
-                        if($rejected)
-                        {
-                            array_push($rejectedProdsId, $pval->product_id);
-                        }
-                        return $rejected;
-                    });
-                }
-                elseif($lab->type == "text")
-                {
-                    $textPvals = $textPvals->reject(function ($pval) use ($lab, $labF, &$rejectedProdsId) {
-                        $rejected = $pval->label_id == $lab->label_id && $pval->label_value != $labF && $labF != "";
-                        if($rejected)
-                        {
-                            array_push($rejectedProdsId, $pval->product_id);
-                        }
-                        return $rejected;
-                    });
-                }
-                if(count($rejectedProdsId) > 0)
-                {
-                    $numberPvals = $numberPvals->reject(function ($pval) use ($rejectedProdsId) {
-                        return in_array($pval->product_id, $rejectedProdsId);
-                    });
-
-                    $textPvals = $textPvals->reject(function ($pval) use ($rejectedProdsId) {
-                        return in_array($pval->product_id, $rejectedProdsId);
-                    });
-                }
+                $numberPvals = $numberPvals->filter(function ($pval) use ($lab, $labF) {
+                    $accepted = $pval->label_id != $lab->label_id || $pval->label_value <= floatval($labF);
+                    // if($pval->label_id == $lab->label_id)
+                    //     dump($lab->name . ";  '" . $pval->label_value . "' '" . floatval($labF). "'");
+                    return  $accepted;
+                });
+            }
+            elseif($lab->type == "text")
+            {
+                $textPvals = $textPvals->filter(function ($pval) use ($lab, $labF, $hideAny) {
+                    $accepted = $pval->label_id != $lab->label_id || strtolower($pval->label_value) == strtolower(strval($labF)) 
+                                                                    || (strval($labF) == "any" && !$hideAny);
+                    // if($pval->label_id == $lab->label_id)
+                    //     dump($lab->name . ";  '" . $pval->label_value . "' '" . strval($labF). "'");
+                    return $accepted;
+                });
             }
         }
 
@@ -113,7 +104,9 @@ class HomeController extends Controller
         $counter = 0;
         $topcat = Category::where("category_id", $category_id)->first();
 
-        
+        if(!$first)
+            $labels = array_merge($labels, HomeController::getAllLabelsFromCatParents($category_id));
+
         foreach($topcat->labels()->get() as $lbl)
         {
             array_push($labels, $lbl);
@@ -148,6 +141,37 @@ class HomeController extends Controller
             $counter++;
         }
         
+        return $labels;
+    }
+
+    public static function getAllLabelsFromCatParents($category_id)
+    {
+        $cat = Category::where("category_id", $category_id)->first();
+        if(!$cat)
+            return [];
+
+        $parents = [];
+        $cid = $category_id;
+        $parid = $cat->parent_category_id;
+        while(1)
+        {
+            $parent = Category::where("category_id", $parid)->first();
+            $cid = $parent->category_id;
+            $parid = $parent->parent_category_id;
+            array_push($parents, $parent);
+            if($parid == $cid)
+                break;
+        }
+        
+        $labels = [];
+        foreach ($parents as $par) 
+        {
+            foreach($par->labels()->get() as $lbl)
+            {
+                array_push($labels, $lbl);
+            }
+        }
+
         return $labels;
     }
 }

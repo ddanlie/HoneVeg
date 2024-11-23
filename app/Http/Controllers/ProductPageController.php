@@ -210,13 +210,12 @@ class ProductPageController extends Controller
             $product->save();
 
 
-            //we know that when we creating something new there are no rows in table connected to it
             for($i = 0; $i < count($labelIds); $i++)
             {  
                 $lval = new ProductLabelValue();
                 $lval->product_id = $product->product_id;
                 $lval->label_id = $labelIds[$i];
-                $lval->label_value = $labelValues[$i];
+                $lval->label_value = strval($labelValues[$i]);
                 $lval->save();
             }
 
@@ -295,7 +294,7 @@ class ProductPageController extends Controller
                 if(!$plval)
                     abort(500);
 
-                $plval->label_value = $labelValues[$i];
+                $plval->label_value =  strval($labelValues[$i]);
                 $plval->save();
             }
             if(request()->image)

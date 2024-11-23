@@ -28,11 +28,24 @@
     
 
     <aside class="filters">
+                
+        <form id="resetForm" action="{{url()->current()}}" method="GET">
+            @csrf
+            <input style="visibility: hidden;"  name="reset" value="true">
+            
+        </form>
+        
         <form action="{{url()->current()}}" method="GET">
             @csrf
-       
+            <input style="visibility: hidden;" name="reset" value="false">
         <h1 style="margin-top: 20%; margin-bottom: 10%;">Filters</h1>
-        <x-defaultButton type="submit">refresh</x-defaultButton>
+        <x-defaultButton type="submit">apply</x-defaultButton>
+        <x-defaultButton form="resetForm">reset</x-defaultButton>
+        <br><br>
+        <label>
+            <input type="checkbox" value="true" name="findSpecific" {{ request('findSpecific', 'false') == 'false' ? ' ' : 'checked'}}>
+            Hide "any"
+        </label>
 
         <div class="filterList">
             <div class="priceFilter">
@@ -52,10 +65,11 @@
                     @if($lab->type == "number")
                         <h3>{{$lab->name}} ({{$lab->category()->first()->name}})</h3>
 
-                        <input type="range" id="label_{{$lab->label_id}}" name="{{$lab->name}}_{{$lab->label_id}}" value={{request($lab->name.'_'.$lab->label_id, 10000)}} 
+                        <input type="range" id="label_{{$lab->label_id}}" name="{{$lab->name.'_'.$lab->label_id}}" 
+                            value="{{request(str_replace(" ", "_", $lab->name.'_'.$lab->label_id), 10000)}}" 
                             min=1 max=10000 oninput="updateLabel{{$lab->label_id}}(this.value)">
 
-                        <h4 id="label_{{$lab->label_id}}_value">{{request($lab->name.'_'.$lab->label_id, 10000)}}</h4>
+                        <h4 id="label_{{$lab->label_id}}_value">{{request(str_replace(" ", "_", $lab->name.'_'.$lab->label_id), 10000)}}</h4>
 
                         <script>
                             function updateLabel{{$lab->label_id}} (value)
@@ -67,7 +81,7 @@
                     @elseif($lab->type == "text")
                         <h3>{{$lab->name}} ({{$lab->category()->first()->name}})</h3>
 
-                        <input type="text" name="{{$lab->name}}_{{$lab->label_id}}" value="{{request($lab->name.'_'.$lab->label_id)}}" min=1 max=10000>
+                        <input type="text" name="{{$lab->name.'_'.$lab->label_id}}" value="{{request(str_replace(" ", "_", $lab->name.'_'.$lab->label_id), 'any')}}" min=1 max=10000>
                     @endif
                 </div>
             @endforeach

@@ -98,10 +98,10 @@
                         <input type="hidden" name="lblids[]" value="{{$prodLabel->label_id}}">
                         @switch($prodLabel->labels[0]->type)
                             @case("number")
-                                <input required type="number" min="0" name="cols[]" value="{{$prodLabel->label_value}}">
+                                <input type="number" min="0" name="cols[]" value="{{$prodLabel->label_value}}">
                                 @break
                             @case("text")
-                                <input required type="text" maxlength=40 name="cols[]" value="{{$prodLabel->label_value}}">
+                                <input type="text" maxlength=40 name="cols[]" value="{{$prodLabel->label_value}}">
                                 @break                    
                             @default                        
                             @endswitch
