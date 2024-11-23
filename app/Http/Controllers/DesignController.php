@@ -158,7 +158,7 @@ class DesignController extends Controller
             $label = new Label();
             $label->name = $lbl->name;
             $label->type = $lbl->type;
-            $label->category_id = $design->parent_category_id;
+            $label->category_id = $cat->category_id;
             $label->save();
         }
 

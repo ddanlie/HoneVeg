@@ -172,13 +172,16 @@ class EventsController extends Controller
             $event->start_date = Carbon::parse($request->input('evStart'));
             $event->end_date = Carbon::parse($request->input('evEnd'));
             $event->address = $request->input('evPlace');
-            $event->description = $request->input('edescr');
+            if($request->input('edescr') != null)
+                $event->description =  $request->input('edescr');
+            else
+                $event->description = "";
             $event->save();
     
             
             foreach($soldProducts as $soldp)
             {
-                $p = EventProducts::where([['event_id', '=', $event->event_id], ['product_id', '=', $soldp->product_id]])->get();
+                $p = EventProducts::where([['event_id', '=', $event->event_id], ['product_id', '=', $soldp->product_id]])->first();
                 if($p)
                     $p->delete();
             }
@@ -196,7 +199,7 @@ class EventsController extends Controller
 
 
         if(request()->image && $event != null)
-            request()->image->move(public_path('web/images/events/'), $event->product_id.'.jpg');
+            request()->image->move(public_path('web/images/events/'), $event->event_id.'.jpg');
 
         return  redirect()->route("events.createPage")->with(["message" => "Event succesfully edited"]);
     }

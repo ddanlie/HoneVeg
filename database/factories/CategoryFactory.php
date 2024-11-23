@@ -33,7 +33,7 @@ class CategoryFactory extends Factory
     {
         return $this->afterCreating(function (Category $category) {
 
-            if($category->name != 'base category') {
+            if($category->name == 'category') {
                 $category->name = 'category'.$category->category_id;
                 $category->save();
 
@@ -43,7 +43,7 @@ class CategoryFactory extends Factory
                 ]);
     
             }
-            else {
+            else if($category->name == 'base category'){
                 Label::factory()->create([
                     'category_id' => $category->category_id,
                     'name' => 'price type',
@@ -51,6 +51,19 @@ class CategoryFactory extends Factory
                 ]);
             }
 
+        });
+    }
+
+    public function withLabel($labelName, $labelType) {
+        return $this->afterCreating(function (Category $category) use ($labelName, $labelType) {
+            $category_id = $category->category_id;
+
+            Label::factory()->create([
+                'category_id' => $category_id,
+                'name' => $labelName,
+                'type' => $labelType
+            ]);
+            
         });
     }
 

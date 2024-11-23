@@ -55,7 +55,7 @@
                 <h5>(yyyy-mm-dd)</h5>
             </div>
 
-            {{$event->description}};
+            {{$event->description}}
 
             <div class="eventButtons">
                 <div>

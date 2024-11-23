@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('change_categories_designs', function (Blueprint $table) {
             $table->id('design_id');
-            $table->unsignedBigInteger('moderator_id')->references('user_id')->on('users')->nullable();;
+            $table->unsignedBigInteger('moderator_id')->references('user_id')->on('users')->nullable();
             $table->unsignedBigInteger('creator_id')->references('user_id')->on('users');
-            $table->unsignedBigInteger('parent_category_id')->references('category_id')->on('categories');
+            $table->unsignedBigInteger('parent_category_id')->references('category_id')->on('categories')->nullable();;
             $table->string('name');
             $table->text('description')->nullable();
             $table->dateTime('creation_date');

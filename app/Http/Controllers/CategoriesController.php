@@ -47,10 +47,10 @@ class CategoriesController extends Controller
         //end
 
         $subcategories = $category->subCategories()->whereColumn('parent_category_id', '!=', 'category_id')->get();
-        //$products = $category->products()->paginate(HomeController::getCatalogPerPageAmount());//delete this later
         
+        //$products = $category->products()->paginate(HomeController::getCatalogPerPageAmount());
         //get all products from all children
-        $catIds = [$category->category_id];//$subcategories->pluck('category_id')->toArray());
+        $catIds = [$category->category_id];
         $idx = 0;
         while($idx < count($catIds))
         {
