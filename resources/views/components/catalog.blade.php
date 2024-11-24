@@ -46,6 +46,10 @@
             <input type="checkbox" value="true" name="findSpecific" {{ request('findSpecific', 'false') == 'false' ? ' ' : 'checked'}}>
             Hide "any"
         </label>
+        <label>
+            <input type="checkbox" value="true" name="findSpecificNum" {{ request('findSpecificNum', 'false') == 'false' ? ' ' : 'checked'}}>
+            Hide "10000"
+        </label>
 
         <div class="filterList">
             <div class="priceFilter">

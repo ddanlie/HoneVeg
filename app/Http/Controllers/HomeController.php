@@ -64,15 +64,21 @@ class HomeController extends Controller
         else
             $hideAny = false;
 
+        $hideAnyNum = $request->input("findSpecificNum", "false");
+        if($hideAnyNum == "true")
+            $hideAnyNum = true;
+        else
+            $hideAnyNum = false;
+
         foreach($labels as $lab)
         {
             $labF = $request->input(str_replace(" ", "_", $lab->name.'_'.$lab->label_id));
             if($lab->type == "number")
             {
-                $numberPvals = $numberPvals->filter(function ($pval) use ($lab, $labF) {
-                    $accepted = $pval->label_id != $lab->label_id || $pval->label_value <= floatval($labF);
+                $numberPvals = $numberPvals->filter(function ($pval) use ($lab, $labF, $hideAnyNum) {
+                    $accepted = $pval->label_id != $lab->label_id || ($pval->label_value <= floatval($labF) && !$hideAnyNum);
                     // if($pval->label_id == $lab->label_id)
-                    //     dump($lab->name . ";  '" . $pval->label_value . "' '" . floatval($labF). "'");
+                    //     dump($lab->name . ";  '" . $pval->label_value . "' '" . floatval($labF). "'" . "$pval->label_id =? $lab->label_id;");
                     return  $accepted;
                 });
             }
@@ -92,6 +98,8 @@ class HomeController extends Controller
 
         $pids = array_merge($pids, $numberPvals->pluck("product_id")->toArray());
         $pids = array_merge($pids, $textPvals->pluck("product_id")->toArray());
+        // dump($numberPvals);
+        // dump($textPvals);
         $products->whereIn("product_id", $pids);
 
         return $products;

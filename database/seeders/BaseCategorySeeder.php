@@ -694,7 +694,7 @@ class BaseCategorySeeder extends Seeder
         $carrotCatLabel = \App\Models\Label::where('category_id', $carrotCat->category_id)->get();      
         foreach ($carrotCatLabel as $label) {
             \App\Models\ProductLabelValue::factory()->create([
-                'product_id' => $ilp->product_id,
+                'product_id' => $ccp->product_id,
                 'label_id' => $label->label_id,
                 'label_value' => 20
             ]);
