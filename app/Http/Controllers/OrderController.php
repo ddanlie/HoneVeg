@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\Continue_;
 
 class OrderController extends Controller
 {
@@ -97,13 +98,18 @@ class OrderController extends Controller
             abort(500);
 
         DB::transaction(function () use ($order, $products) {
+            $uniqueSellerIds = [];
             foreach($products as $product)
             {
+                //$selOrd = SellerOrders::where([["order_id", "=", $order->order_id], ["seller_id", "=", ]]);
+                if(in_array($product->seller_id, $uniqueSellerIds))
+                    continue;
                 $selOrd = new SellerOrders();
                 $selOrd->order_id = $order->order_id;
                 $selOrd->seller_id = $product->seller_user_id;
                 $selOrd->status = "accepted";
                 $selOrd->save();
+                array_push($uniqueSellerIds, $selOrd->seller_user_id);
             }
             $order->status = "in process";
             $order->creation_date = Carbon::now()->toDateTimeString();
